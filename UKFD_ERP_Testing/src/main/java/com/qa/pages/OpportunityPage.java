@@ -2,13 +2,14 @@ package com.qa.pages;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.aventstack.extentreports.ExtentTest;
-import com.qa.util.TestBase;
+import com.qa.util.TestUtil;
 
-public class OpportunityPage extends TestBase{
+public class OpportunityPage extends TestUtil{
 	
 	@FindBy(xpath = "//input[@name='inpt_leadsource']")
 	WebElement select_lead_source;//5 Call Centre
@@ -35,6 +36,8 @@ public class OpportunityPage extends TestBase{
 	public OpportunityPage()
 	{
 		PageFactory.initElements(driver, this);
+		action=new Actions(driver);
+
 	}
 	
 	public void enter_Opprnty_Details(String lead_source, ExtentTest test) throws InterruptedException

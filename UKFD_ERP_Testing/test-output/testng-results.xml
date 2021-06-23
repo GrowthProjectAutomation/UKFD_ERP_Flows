@@ -2,20 +2,20 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2021-06-22T15:10:30Z" name="Default suite" finished-at="2021-06-22T15:14:02Z" duration-ms="212478">
+  <suite started-at="2021-06-23T17:26:54Z" name="Default suite" finished-at="2021-06-23T17:29:54Z" duration-ms="179958">
     <groups>
     </groups>
-    <test started-at="2021-06-22T15:10:30Z" name="Default test" finished-at="2021-06-22T15:14:02Z" duration-ms="212478">
+    <test started-at="2021-06-23T17:26:54Z" name="Default test" finished-at="2021-06-23T17:29:54Z" duration-ms="179958">
       <class name="com.qa.testcases.SalesOrder_ContactCentre">
-        <test-method is-config="true" signature="setExtent()[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-22T15:10:30Z" name="setExtent" finished-at="2021-06-22T15:10:30Z" duration-ms="249" status="PASS">
+        <test-method is-config="true" signature="setExtent()[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-23T17:26:54Z" name="setExtent" finished-at="2021-06-23T17:26:54Z" duration-ms="236" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setExtent -->
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-22T15:10:30Z" name="setUp" finished-at="2021-06-22T15:10:41Z" duration-ms="11216" status="PASS">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-23T17:26:54Z" name="setUp" finished-at="2021-06-23T17:27:05Z" duration-ms="10479" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="so_Creation_Contact_Centre(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-22T15:10:42Z" name="so_Creation_Contact_Centre" data-provider="UKFD_Contact_Centre" finished-at="2021-06-22T15:13:58Z" duration-ms="196395" status="PASS">
+        <test-method signature="so_Creation_Contact_Centre(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-23T17:27:05Z" name="so_Creation_Contact_Centre" data-provider="UKFD_Contact_Centre" finished-at="2021-06-23T17:29:50Z" duration-ms="164931" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -117,22 +117,27 @@
                 <![CDATA[737]]>
               </value>
             </param>
+            <param index="20">
+              <value>
+                <![CDATA[UKFD Sales Order Proforma (2)]]>
+              </value>
+            </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- so_Creation_Contact_Centre -->
-        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-22T15:13:58Z" name="tearDown" finished-at="2021-06-22T15:13:58Z" duration-ms="1" status="PASS">
+        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-23T17:29:50Z" name="tearDown" finished-at="2021-06-23T17:29:50Z" duration-ms="1" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=so_Creation_Contact_Centre status=SUCCESS method=SalesOrder_ContactCentre.so_Creation_Contact_Centre(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f] output={null}]]]>
+                <![CDATA[[TestResult name=so_Creation_Contact_Centre status=SUCCESS method=SalesOrder_ContactCentre.so_Creation_Contact_Centre(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-        <test-method is-config="true" signature="endReport()[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-22T15:13:58Z" name="endReport" finished-at="2021-06-22T15:14:02Z" duration-ms="4054" status="PASS">
+        <test-method is-config="true" signature="endReport()[pri:0, instance:com.qa.testcases.SalesOrder_ContactCentre@4e91d63f]" started-at="2021-06-23T17:29:50Z" name="endReport" finished-at="2021-06-23T17:29:54Z" duration-ms="3787" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- endReport -->

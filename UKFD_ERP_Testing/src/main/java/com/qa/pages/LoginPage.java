@@ -7,9 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.qa.util.TestBase;
+import com.qa.util.TestUtil;
 
-public class LoginPage extends TestBase {
+public class LoginPage extends TestUtil {
 
 	// we have to define page objects with the help of @FindBy
 	@FindBy(name = "email")
@@ -24,6 +24,9 @@ public class LoginPage extends TestBase {
 	
 	@FindBy(xpath = "//span[@class='ns-role-menuitem-text']")
 	List<WebElement> all_roles;
+	
+	@FindBy(xpath = "//div[@class='ns-role']//span[@class='ns-role-name']")
+	WebElement existing_role;
 	
 	@FindBy(xpath = "//a[@href='?account_switch=3460739_SB5']")
 	WebElement SB5_link;
@@ -49,6 +52,12 @@ public class LoginPage extends TestBase {
 	}
 	public void choose_required_role(String rolename) throws InterruptedException
 	{
+		if(existing_role.getText().trim().equals(rolename.trim()))
+		{
+			System.out.println("already in that role");
+		}
+		else
+		{
 		Actions action=new Actions(driver);
 		action.moveToElement(choose_role).build().perform();
 		Thread.sleep(1000);
@@ -59,6 +68,8 @@ public class LoginPage extends TestBase {
 				all_roles.get(i).click();
 				break;
 			}
+		}
+		
 		}
 		
 	}

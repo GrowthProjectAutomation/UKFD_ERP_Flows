@@ -13,9 +13,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aventstack.extentreports.ExtentTest;
-import com.qa.util.TestBase;
+import com.qa.util.TestUtil;
 
-public class CustomerPage extends TestBase{
+public class CustomerPage extends TestUtil{
 	
 	
 	// customer navigation for creation 
@@ -94,15 +94,14 @@ public class CustomerPage extends TestBase{
 	
 	
 	
-	Actions action=new Actions(driver);
 	JavascriptExecutor executor = (JavascriptExecutor) driver;
-	WebDriverWait wait=new WebDriverWait(driver, 20);
 	LoginPage loginPage;
 
 	
 	public CustomerPage()
 	{
 		PageFactory.initElements(driver, this);
+		action=new Actions(driver);
 	}
 	
 	public void navigate_to_customer_record() throws InterruptedException
@@ -135,7 +134,7 @@ public class CustomerPage extends TestBase{
 		driver.switchTo().frame("childdrecord_frame");
 		Thread.sleep(1000);
 		WebElement addresse=driver.findElement(By.xpath("//input[@name='addressee']"));
-		wait.until(ExpectedConditions.textToBePresentInElementValue(addresse, customer_Firstname+" "+customer_Lastname));
+		textToBePresentInElementValue(driver,addresse,30, customer_Firstname+" "+customer_Lastname);
 		Thread.sleep(1000);
 		address1_textbox.sendKeys(address1.trim());
 		address2_textbox.sendKeys(address2.trim());

@@ -13,15 +13,40 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aventstack.extentreports.ExtentTest;
-import com.qa.util.TestBase;
+import com.qa.util.TestUtil;
 
-public class SalesOrderPage extends TestBase {
+public class SalesOrderPage extends TestUtil {
+	
+	@FindBy(xpath = "//input[@name='inpt_customform']")
+	WebElement formDropdown;
+	
+	@FindBy(xpath = "//input[@name='trandate']")
+	WebElement dateBox;
+	
+	@FindBy(xpath = "//div[@class='dropdownDiv']//div")
+	List<WebElement> dropdownList;
+	
+	@FindBy(xpath = "//input[@id='entity_display']")
+	WebElement customerBox;
+	
+	@FindBy(xpath = "//span[@id='parent_actionbuttons_entity_fs']//a[2]")
+	WebElement customerArrowBtn;
+	
+	@FindBy(xpath = "//div[@id='entity_fs_tooltipMenu']//a[@id='entity_popup_list']")
+	WebElement customerListBtn;
+	
+	@FindBy(xpath = "//div[@id='popup_outerdiv']//input[@id='st']")
+	WebElement searchBox;
+	
+	@FindBy(xpath = "//div[@id='popup_outerdiv']//input[@id='Search']")
+	WebElement searchBtn;
+	
+	@FindBy(xpath = "//div[@id='popup_outerdiv']//div[@id='inner_popup_div']//table//tr//td//following-sibling::td//a")
+	List<WebElement> customerSearchList;
 	
 	@FindBy(xpath = "//textarea[@name='custbody_instruction']")
 	WebElement delivery_instructions_textarea;
-	
-	//div[contains(text(),'Light parcel Menzies')]
-	
+		
 	@FindBy(xpath = "//button[contains(text(),'OK')]")
 	WebElement shipping_ok_button;
 	
@@ -93,19 +118,24 @@ public class SalesOrderPage extends TestBase {
 	
 	Actions action=new Actions(driver);
 	JavascriptExecutor executor = (JavascriptExecutor) driver;
-	WebDriverWait wait=new WebDriverWait(driver, 20);
 	String parentWindow;
+	char ch='"';
 	
 	
 	
 	public SalesOrderPage()
 	{
 		PageFactory.initElements(driver, this);
+		action=new Actions(driver);
+
 	}
 	
-	public void enter_SO_details(String delivery_Instructions, String shipping_Method, String payment_Method, String credit_Card_Number, String security_Code, String expiry_Date, String customer_Firstname, String customer_Lastname, ExtentTest test) throws Exception
+	public void enter_SO_details(String formName,String delivery_Instructions, String shipping_Method, String payment_Method, String credit_Card_Number, String security_Code, String expiry_Date, String customer_Firstname, String customer_Lastname, ExtentTest test) throws Exception
 	{
-		eleClickable(driver, delivery_instructions_textarea, 20);
+		if(!formDropdown.getAttribute("value").trim().equals(formName))
+			selectDropdownValue(formDropdown, dropdownList, formName);
+		eleFocussed(customerBox);
+		eleAttributeToBeNotEmpty(driver, dateBox, 15, "value");
 		delivery_instructions_textarea.sendKeys(delivery_Instructions.trim());
 		calculate_shipping_button.click();
 		eleAvailability(driver, shipping_ok_button, 10);
@@ -118,15 +148,17 @@ public class SalesOrderPage extends TestBase {
 		select_payment_method.sendKeys(payment_Method.trim());
 		executor.executeScript("arguments[0].scrollIntoView(true);", select_credit_card);
 		Thread.sleep(500);
-		select_credit_card.click();
-		for(int i=0;i<select_credit_card_from_list.size();i++)
-		{
-			if(select_credit_card_from_list.get(i).getText().trim().equals("- New -"))
-			{
-				select_credit_card_from_list.get(i).click();
-				break;
-			}
-		}
+		selectDropdownValue(select_credit_card, select_credit_card_from_list, "- New -");
+//		select_credit_card.click();
+//		
+//		for(int i=0;i<select_credit_card_from_list.size();i++)
+//		{
+//			if(select_credit_card_from_list.get(i).getText().trim().equals("- New -"))
+//			{
+//				select_credit_card_from_list.get(i).click();
+//				break;
+//			}
+//		}
 		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
 	    driver.switchTo().window(tabs.get(1));
 	    eleAvailability(driver,ccnumber_textbox, 10);
@@ -134,16 +166,17 @@ public class SalesOrderPage extends TestBase {
 		expiry_date_textbox.sendKeys(expiry_Date.trim());
 		select_payment_method.sendKeys(payment_Method.trim());
 		save_card_details.click();
-	    driver.switchTo().window(tabs.get(0));				
-		wait.until(ExpectedConditions.textToBePresentInElementValue(ccname, customer_Firstname+" "+customer_Lastname));
+	    driver.switchTo().window(tabs.get(0));	
+	    textToBePresentInElementValue(driver,ccname,15,customer_Firstname+" "+customer_Lastname);
 		security_code_textbox.sendKeys(security_Code.trim());
 		Thread.sleep(500);
 		second_sales_order_save_button.click();
+	}
+	public void salesOrderApproval(ExtentTest test)
+	{
 		sales_order_approve_button.click();
-		eleAvailability(driver, By.xpath("//input[@name='closeremaining']"), 20);
-		//System.out.println(sales_order_confirmation_message.getText().trim());
-		//System.out.println(sales_order_status.getText().trim());
-		char ch='"';
+		eleAvailability(driver, sales_order_confirmation_message, 30);
+	
 		if(sales_order_confirmation_message.getText().trim().equals("Sales Order successfully Approved")&& sales_order_status.getText().trim().equals("PENDING FULFILLMENT"))
 		{
 			System.out.println("Confirmation banner is displayed with pending fulfillment status");
@@ -154,8 +187,12 @@ public class SalesOrderPage extends TestBase {
 			test.pass("Confirmation Banner of Sales Order creation is not displayed with Pending Fulfillment Status");
 
 		}
+	}
+	public void verifyCashSale(ExtentTest test) throws InterruptedException
+	{
 		executor.executeScript("arguments[0].scrollIntoView(true);", related_records_tab);
 		Thread.sleep(1500);
+		eleAvailability(driver, related_records_tab, 10);
 		related_records_tab.click();
 		if(transcation_type.getText().trim().equals("Cash Sale"))
 		{
@@ -167,6 +204,9 @@ public class SalesOrderPage extends TestBase {
 		{
 			test.fail("Cash Sale is not Created");
 		}
+	}
+	public void verifyEmail(ExtentTest test)
+	{
 		communication_tab.click();
 		executor.executeScript("arguments[0].scrollIntoView(true);", subject);
 		if(subject.getText().trim().equals("Thanks for your order!"))
@@ -179,7 +219,7 @@ public class SalesOrderPage extends TestBase {
 			test.fail("Email Confirmation is not displayed");
 		}
 		
-
+	}
 		
 		
 	}
@@ -189,5 +229,5 @@ public class SalesOrderPage extends TestBase {
 	
 	
 	
-}
+
   

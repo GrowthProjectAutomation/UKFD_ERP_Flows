@@ -38,7 +38,6 @@ import com.qa.util.TestUtil;
 
 public class SalesOrder_ContactCentre {
 
-	TestUtil util;
 	ExtentTest test;
 	ExtentReports extent;
 	ExtentSparkReporter htmlReporter;
@@ -48,6 +47,7 @@ public class SalesOrder_ContactCentre {
 	OpportunityPage opprPage;
 	QuotePage quotePage;
 	SalesOrderPage soPage;
+	TestUtil testBase;
 	public void send_email() throws EmailException {
 		EmailAttachment attachment = new EmailAttachment();
 		attachment.setPath("./GrowthProjectReport/GrowthProjectReport.html");
@@ -112,12 +112,12 @@ public class SalesOrder_ContactCentre {
 
 	@BeforeClass
 	public void setUp() throws InterruptedException {
-		util = new TestUtil();
-		util.setUp();
+		testBase=new TestUtil();
+		testBase.setUp();
 	}
 
 	@Test(dataProvider = "UKFD_Contact_Centre",priority = 1)
-	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code) throws Exception {
+	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String Sales_Order_Form) throws Exception {
 		test=extent.createTest("Verifying New Sales Order creation via Contact Centre / Showroom  - Credit/Debit Card ");
 		customerPage=new CustomerPage();
 		customerPage.enter_Customer_details(Customer_Firstname,Customer_Lastname,Email,Phone,Address1,Address2,Address3,City,State,Zip,test);
@@ -126,8 +126,10 @@ public class SalesOrder_ContactCentre {
 		quotePage=new QuotePage();
 		quotePage.enter_quote_details(Location,Item_Name,Quantity,Shipping_Method,test);
 		soPage=new SalesOrderPage();
-		soPage.enter_SO_details(Delivery_Instructions,Shipping_Method,Payment_Method,Credit_Card_Number,Security_Code,Expiry_Date,Customer_Firstname,Customer_Lastname,test);
-
+		soPage.enter_SO_details(Sales_Order_Form,Delivery_Instructions,Shipping_Method,Payment_Method,Credit_Card_Number,Security_Code,Expiry_Date,Customer_Firstname,Customer_Lastname,test);
+		soPage.salesOrderApproval(test);
+		soPage.verifyCashSale(test);
+		soPage.verifyEmail(test);
 	}
 	
 }

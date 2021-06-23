@@ -13,9 +13,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aventstack.extentreports.ExtentTest;
-import com.qa.util.TestBase;
+import com.qa.util.TestUtil;
 
-public class QuotePage extends TestBase {
+public class QuotePage extends TestUtil {
 	
 	@FindBy(xpath = "//input[@name='inpt_location']")
 	WebElement select_location;
@@ -31,6 +31,9 @@ public class QuotePage extends TestBase {
 	
 	@FindBy(xpath="//input[@id='Search']")
 	WebElement Item_search_searchbox_button;
+	
+	@FindBy(xpath = "//div[@id='popup_outerdiv']//div[@id='inner_popup_div']//table//tr//td//following-sibling::td//a")
+	List<WebElement> searchList;
 	
 	@FindBy(xpath="//div[@id='inner_popup_div']//table/tbody/tr//following-sibling::tr//td//following-sibling::td//a")
 	List<WebElement> items_list;
@@ -65,6 +68,9 @@ public class QuotePage extends TestBase {
 	@FindBy(xpath = "//input[@id='inpt_shipmethod25']")
 	WebElement select_shipping_method_dropdown;
 	
+	@FindBy(xpath = "//input[@id='shippingcost_formattedValue']")
+	WebElement shipping_cost;
+	
 	@FindBy(xpath = "//a[@id='accntingtabtxt']")
 	WebElement accounting_tab;
 	
@@ -92,8 +98,10 @@ public class QuotePage extends TestBase {
 	@FindBy(xpath = "//div[@class='uir-record-id']")
 	WebElement quote_id;
 	
+	@FindBy(xpath = "//span[@id='shippingtaxcode_fs_lbl_uir_label']//following-sibling::span//span//div//input")
+	WebElement shipping_tax_code;
 	
-	Actions action=new Actions(driver);
+	
 	JavascriptExecutor executor = (JavascriptExecutor) driver;
 	WebDriverWait wait=new WebDriverWait(driver, 100);
 	LoginPage loginPage;
@@ -104,6 +112,7 @@ public class QuotePage extends TestBase {
 	public QuotePage()
 	{
 		PageFactory.initElements(driver, this);
+		action=new Actions(driver);
 	}
 	 
 	public void enter_quote_details(String location, String item_Name, String quantity, String shipping_Method, ExtentTest test) throws InterruptedException
@@ -118,14 +127,8 @@ public class QuotePage extends TestBase {
 		eleClickable(driver, enable_line_item_shipping_checkbox, 10);
 		enable_line_item_shipping_checkbox.click();
 		Thread.sleep(1000);
-		Item_arrow.click();
-		item_list_option.click();
-		eleClickable(driver, Item_search_searchbox_button, 10);
-		Item_searchbox_textbox.sendKeys(item_Name.trim());
-		Item_search_searchbox_button.click();
-		Thread.sleep(5000);
-		items_list.get(0).click();
-		wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementValue(pack_price, "0.00")));
+		selectValueFromList(Item_arrow, item_list_option, Item_searchbox_textbox, Item_search_searchbox_button, searchList, item_Name);
+		notTextToBePresentInElementValue(driver, pack_price, 100, "0.00");
 		Thread.sleep(3000);
 		quantity_click.click();
 		eleClickable(driver, Quantity, 5);
@@ -136,9 +139,9 @@ public class QuotePage extends TestBase {
 		eleAvailability(driver, select_shipping_method_dropdown, 10);
 		select_shipping_method_dropdown.sendKeys(shipping_Method.trim());
 		Thread.sleep(1000);
-		driver.findElement(By.xpath("//input[@id='shippingcost_formattedValue']")).click();
-		WebElement sm=driver.findElement(By.xpath("//input[@title='VAT:S-GB']"));
-		wait.until(ExpectedConditions.textToBePresentInElementValue(sm,"VAT:S-GB"));
+		shipping_cost.click();
+		action.moveToElement(shipping_tax_code).build().perform();
+		textToBePresentInElementValue(driver, shipping_tax_code, 15, "VAT:S-GB");
 		executor.executeScript("window.scrollTo(0,0)");
 		eleClickable(driver, first_save_button, 20);
 		first_save_button.click();
