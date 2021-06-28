@@ -9,7 +9,7 @@
           <include name="endReport"/>
           <include name="setExtent"/>
           <include name="setUp"/>
-          <include name="so_Creation_Contact_Centre" invocation-numbers="0"/>
+          <include name="so_Creation_Trade_Centre" invocation-numbers="0"/>
         </methods>
       </class> <!-- com.qa.testcases.SalesOrder_ContactCentre -->
     </classes>

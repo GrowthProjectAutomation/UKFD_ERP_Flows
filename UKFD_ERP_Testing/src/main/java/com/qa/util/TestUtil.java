@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +68,7 @@ public class TestUtil {
 	    try {
 	        wait.until(ExpectedConditions.alertIsPresent());
 	        foundAlert = true;
+	        
 	    } catch (TimeoutException eTO) {
 	        foundAlert = false;
 	    }
@@ -165,6 +167,29 @@ public class TestUtil {
 	        } else {
 	            return;
 	        }
+	    }
+	    throw new TimeoutException("Maximum time exceeded.");
+	}
+	
+	
+	
+	public void waitUntilScriptIsScheduled(WebElement element,String value, int time) throws InterruptedException {
+	    int timer = 0;
+	    final int pollInterval = 8000;
+	    while (timer < time*1000) {
+	 
+	        if (element.getText().trim().equals(value))
+	        {
+	           driver.navigate().refresh();
+	           Thread.sleep(pollInterval);
+	           timer += pollInterval;
+	        }
+	        else 
+	        {
+	            return;
+	        }
+	    	
+	    
 	    }
 	    throw new TimeoutException("Maximum time exceeded.");
 	}

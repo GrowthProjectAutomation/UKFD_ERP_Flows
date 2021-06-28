@@ -30,6 +30,7 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.qa.excelReader.ExcelReader;
 import com.qa.pages.CustomerPage;
+import com.qa.pages.ItemFulfilment;
 import com.qa.pages.LoginPage;
 import com.qa.pages.OpportunityPage;
 import com.qa.pages.QuotePage;
@@ -47,6 +48,7 @@ public class SalesOrder_ContactCentre {
 	OpportunityPage opprPage;
 	QuotePage quotePage;
 	SalesOrderPage soPage;
+	ItemFulfilment itemfulfilmentPage;
 	TestUtil testBase;
 	public void send_email() throws EmailException {
 		EmailAttachment attachment = new EmailAttachment();
@@ -108,6 +110,11 @@ public class SalesOrder_ContactCentre {
 		reader = new ExcelReader();
 		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD(Contact_centre).xlsx", 0);
 	}
+	@DataProvider
+	public Object[][] UKFD_Trade_Centre() throws IOException {
+		reader = new ExcelReader();
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD(Contact_centre).xlsx", 1);
+	}
 
 
 	@BeforeClass
@@ -115,21 +122,56 @@ public class SalesOrder_ContactCentre {
 		testBase=new TestUtil();
 		testBase.setUp();
 	}
-
-	@Test(dataProvider = "UKFD_Contact_Centre",priority = 1)
-	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String Sales_Order_Form) throws Exception {
-		test=extent.createTest("Verifying New Sales Order creation via Contact Centre / Showroom  - Credit/Debit Card ");
+//
+//	@Test(dataProvider = "UKFD_Contact_Centre",priority = 1)
+//	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String Sales_Order_Form,String Customer_type,String Role) throws Exception {
+//		customerPage=new CustomerPage();
+//		opprPage=new OpportunityPage();
+//		quotePage=new QuotePage();
+//		soPage=new SalesOrderPage();
+//		itemfulfilmentPage=new ItemFulfilment();
+//		
+//		if(Customer_type.trim().equals("General"))
+//		{
+//		test=extent.createTest("Verifying New Sales Order creation via Contact Centre / Showroom  - Credit/Debit Card ");
+//		}
+//		else
+//		{
+//			test=extent.createTest("Verifying Trade Order via Contact Centre - Credit Card");
+//		}
+//		customerPage.enter_Customer_details(Customer_Firstname,Customer_Lastname,Email,Phone,Address1,Address2,Address3,City,State,Zip,Customer_type,Role,test);
+//		opprPage=new OpportunityPage();
+//		opprPage.enter_Opprnty_Details(Lead_source,test);
+//		quotePage.enter_quote_details(Location,Item_Name,Quantity,Shipping_Method,test);
+//		soPage.enter_SO_details(Sales_Order_Form,Delivery_Instructions,Shipping_Method,Customer_Firstname,Customer_Lastname,test);
+//		soPage.payment_details(Payment_Method, Credit_Card_Number, Security_Code, Expiry_Date, Customer_Firstname, Customer_Lastname, test);
+//		soPage.salesOrderApproval(test);
+//		soPage.verifyCashSale(test);
+//		soPage.verifyEmail(test);
+//		soPage.auto_Commit_stock(Quantity,test);
+//		itemfulfilmentPage.item_Fulfillment(test);
+//	}
+	@Test(dataProvider = "UKFD_Trade_Centre",priority = 1)
+	public void so_Creation_Trade_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String Sales_Order_Form,String Customer_type,String Role) throws Exception {
 		customerPage=new CustomerPage();
-		customerPage.enter_Customer_details(Customer_Firstname,Customer_Lastname,Email,Phone,Address1,Address2,Address3,City,State,Zip,test);
 		opprPage=new OpportunityPage();
-		opprPage.enter_Opprnty_Details(Lead_source,test);
 		quotePage=new QuotePage();
-		quotePage.enter_quote_details(Location,Item_Name,Quantity,Shipping_Method,test);
 		soPage=new SalesOrderPage();
-		soPage.enter_SO_details(Sales_Order_Form,Delivery_Instructions,Shipping_Method,Payment_Method,Credit_Card_Number,Security_Code,Expiry_Date,Customer_Firstname,Customer_Lastname,test);
+		itemfulfilmentPage=new ItemFulfilment();
+		test=extent.createTest("Trade Order via Contact Centre - Credit Account");
+		customerPage.enter_Customer_details(Customer_Firstname,Customer_Lastname,Email,Phone,Address1,Address2,Address3,City,State,Zip,Customer_type,Role,test);
+		opprPage.enter_Opprnty_Details(Lead_source,test);
+		quotePage.enter_quote_details(Location,Item_Name,Quantity,Shipping_Method,test);
+		soPage.enter_SO_details(Sales_Order_Form,Delivery_Instructions,Shipping_Method,Customer_Firstname,Customer_Lastname,test);
+		soPage.provide_terms();
+		soPage.print_pro_froma_invoice(test);
+		soPage.email_pro_forma(test);
+		soPage.verify_profromaemail(test);
 		soPage.salesOrderApproval(test);
-		soPage.verifyCashSale(test);
-		soPage.verifyEmail(test);
+		soPage.auto_Commit_stock(Quantity, test);
+		itemfulfilmentPage.item_Fulfillment(test);
+		itemfulfilmentPage.verify_sales_order_status_pending_billing(test);
+		
 	}
 	
 }

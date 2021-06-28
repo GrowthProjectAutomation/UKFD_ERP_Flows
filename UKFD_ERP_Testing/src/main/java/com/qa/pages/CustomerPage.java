@@ -1,5 +1,7 @@
 package com.qa.pages;
 
+import java.util.List;
+
 import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
 
 import org.openqa.selenium.By;
@@ -44,6 +46,9 @@ public class CustomerPage extends TestUtil{
 	
 	@FindBy(xpath = "//span[@id='phone_fs']//input")
 	WebElement phone_number_textbox;
+	
+	@FindBy(xpath = "//a[@id='addresstxt']")
+	WebElement address_tab;
 	
 	@FindBy(xpath = "//a[@id='addressbookaddress_helper_popup']")
 	WebElement address_edit_link;
@@ -91,6 +96,23 @@ public class CustomerPage extends TestUtil{
 	@FindBy(xpath = "//input[@name='opprtnty']")
 	WebElement opprtnty_button_link;
 	
+	@FindBy(xpath = "//input[@name='inpt_category']")
+	WebElement customer_type;
+	
+	@FindBy(xpath = "//div[@class='dropdownDiv']//div")
+	List<WebElement> dropdownList;
+	
+	@FindBy(xpath = "//input[@name='inpt_custentity_trade_reg_status']")
+	WebElement trade_registartion_type;
+	
+	@FindBy(xpath = "//a[@id='financialtxt']")
+	WebElement financial_tab;
+	
+	@FindBy(xpath = "//input[@name='inpt_creditholdoverride']")
+	WebElement credit_card_hold;
+	
+	
+	
 	
 	
 	
@@ -115,20 +137,33 @@ public class CustomerPage extends TestUtil{
 		Thread.sleep(500);
 		action.moveToElement(New_link).click().build().perform();
 	}
-	public void enter_Customer_details(String customer_Firstname, String customer_Lastname, String email, String phone, String address1, String address2, String address3, String city, String state, String zip, ExtentTest test) throws InterruptedException
+	public void enter_Customer_details(String customer_Firstname, String customer_Lastname, String email, String phone, String address1, String address2, String address3, String city, String state, String zip, String customer_type_value, String role, ExtentTest test) throws InterruptedException
 	{
 		loginPage=new LoginPage();
-		loginPage.choose_required_role("Sales Manager");
+		loginPage.choose_required_role(role.trim());
 		Thread.sleep(1000);
 		navigate_to_customer_record();
 		eleAvailability(driver, firstname_textbox, 20);
 		firstname_textbox.sendKeys(customer_Firstname.trim());
 		lastname_textbox.sendKeys(customer_Lastname.trim());
+		selectDropdownValue(customer_type, dropdownList, customer_type_value);
+		if(customer_type_value.trim().equals("Trade"))
+		{
+			selectDropdownValue(trade_registartion_type, dropdownList, "Accepted");
+		}
 		action.moveToElement(email_id_textbox).build().perform();
 		Thread.sleep(500);
 		email_id_textbox.sendKeys(email.trim());
 		phone_number_textbox.sendKeys(phone.trim());
-		action.moveToElement(address_edit_link).build().perform();
+		financial_tab.click();
+		Thread.sleep(1000);
+		executor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
+		Thread.sleep(1000);
+		action.moveToElement(credit_card_hold).build().perform();
+		Thread.sleep(1000);
+		selectDropdownValue(credit_card_hold, dropdownList, "Off");
+		address_tab.click();
+		//action.moveToElement(address_edit_link).build().perform();
 		Thread.sleep(500);
 		address_edit_link.click();
 		driver.switchTo().frame("childdrecord_frame");
@@ -151,7 +186,6 @@ public class CustomerPage extends TestUtil{
 		driver.switchTo().defaultContent();
 		Thread.sleep(1000);
 		executor.executeScript("window.scrollTo(0, 0)");
-		Thread.sleep(500);
 		save_customer.click();
 		accept_alert();		
 		eleAvailability(driver, By.xpath("//input[@name='acceptpayment']"), 20);
