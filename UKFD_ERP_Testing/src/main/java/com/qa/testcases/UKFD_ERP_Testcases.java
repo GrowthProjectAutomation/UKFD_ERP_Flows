@@ -267,7 +267,7 @@ public class UKFD_ERP_Testcases extends TestUtil {
 		driver.navigate().to(sales_order_url);
 		soPage.waitUntilStockIsAutoCommitted(Quantity, test);
 		itemfulfilmentPage.item_Fulfillment(test); 
-		itemfulfilmentPage.verify_sales_order_status_billed(test);
+		itemfulfilmentPage.verify_sales_order_status("BILLED",test);
 		
 			
 	}

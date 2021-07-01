@@ -32,13 +32,13 @@ public class ItemFulfilment extends TestUtil {
 	WebElement save_item_fulfilment;
 	
 	@FindBy(xpath = "//div[@class='uir-record-id']")
-	WebElement fulfilment_id;
+	WebElement recordId;
 	
 	@FindBy(xpath = "//div[@class='uir-record-name']")
-	WebElement fulfilment_name;
+	WebElement recordName;
 	
 	@FindBy(xpath = "//div[@class='uir-record-status']")
-	WebElement fulfilment_status;
+	WebElement recordStatus;
 	
 	@FindBy(xpath = "//span[@id='createdfrom_lbl_uir_label']//following-sibling::span")
 	WebElement sales_order_link;
@@ -71,12 +71,12 @@ public class ItemFulfilment extends TestUtil {
 	}
 	public void verify_fulfillment_status(ExtentTest test)
 	{
-		eleAvailability(driver, fulfilment_status, 20);
-		if(fulfilment_status.getText().trim().equals("SHIPPED"))
+		eleAvailability(driver, recordStatus, 20);
+		if(recordStatus.getText().trim().equals("SHIPPED"))
 		{
 			
-			test.pass("Item Fulfilment is created with id name "+fulfilment_id.getText().trim()+" "+fulfilment_name.getText().trim());
-			test.pass("Item Fulfilment is in "+fulfilment_status.getText().trim() +" status");
+			test.pass("Item Fulfilment is created with id name "+recordId.getText().trim()+" "+recordName.getText().trim());
+			test.pass("Item Fulfilment is in "+recordStatus.getText().trim() +" status");
 		}
 		else
 		{
@@ -87,35 +87,22 @@ public class ItemFulfilment extends TestUtil {
 	public void navigate_to_sales_order_from_fulfilment()
 	{
 		sales_order_link.click();
-		eleAvailability(driver, fulfilment_status, 10);
+		eleAvailability(driver, recordStatus, 10);
 	}
-	public void verify_sales_order_status_billed(ExtentTest test)
+	public void verify_sales_order_status(String Status,ExtentTest test)
 	{
 		sales_order_link.click();
-		eleAvailability(driver, fulfilment_status, 10);
-		if(fulfilment_status.getText().trim().equals("BILLED"))
+		eleAvailability(driver, recordStatus, 10);
+		if(recordStatus.getText().trim().equals(Status.trim()))
 		{
-			test.pass("Sales order is in "+fulfilment_status.getText() +" status");
+			test.pass("Sales order is in "+recordStatus.getText() +" status");
 		}
 		else
 		{
-			test.fail("Sales Order is not in Billed status");
+			test.fail("Sales Order is not in " +Status+" status");
 		}
 		
 	}
-	public void verify_sales_order_status_pending_billing(ExtentTest test)
-	{
-		sales_order_link.click();
-		eleAvailability(driver, fulfilment_status, 10);
-		if(fulfilment_status.getText().trim().equals("PENDING BILLING"))
-		{
-			test.pass("Sales order is in "+fulfilment_status.getText() +" status");
-		}
-		else
-		{
-			test.fail("Sales Order is not in pending Billing  status");
-		}
-		
-	}
+
 	
 }
