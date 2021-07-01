@@ -346,7 +346,7 @@ public class SalesOrderPage extends TestUtil {
 		Thread.sleep(1000);
 		click(billing_tab);
 		eleAvailability(driver, terms_dropdown, 20);
-		if(terms.trim().equals("no"))
+		if(terms.trim().equals(""))
 		{
 		selectDropdownValue(terms_dropdown, dropdownList, "");
 		}
@@ -426,12 +426,12 @@ public class SalesOrderPage extends TestUtil {
 
 		}
 	}
-	public void verifySOStatus(ExtentTest test) 
+	public void verifySOStatus(String status,ExtentTest test) 
 	{
 		eleAvailability(driver, sales_order_status, 20);
 		String tranNo = recordNumber.getText().trim();
 		String tranStatus = sales_order_status.getText().trim();
-		if(tranStatus.equals("PENDING FULFILLMENT")) 
+		if(tranStatus.equals(status.trim())) 
 		{
 			System.out.println("Sales Order '"+tranNo+"' is displayed with "+tranStatus+" status");
 			test.pass("Sales Order '"+tranNo+"' is displayed with "+tranStatus+" status");

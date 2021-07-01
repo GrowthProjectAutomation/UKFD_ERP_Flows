@@ -238,9 +238,9 @@ public class UKFD_ERP_Testcases extends TestUtil {
 //	}
 	
 	@Test(dataProvider = "Carpet_Vinyl",priority = 1)
-	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String NameOnCard,String Security_Code,String Sales_Order_Form,String Customer_type,String Role,String Terms,String SupplierDeliveryNote) throws Exception 
+	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String NameOnCard,String Security_Code,String Sales_Order_Form,String Customer_type,String Role,String SupplierDeliveryNote,String Bin) throws Exception 
 	{
-		
+		String Terms="";
 		test=extent.createTest("Verifying Trade Order via Contact Centre - Carpet/Vinyl Credit Card");
 		customerPage=new CustomerPage();
 		opprPage=new OpportunityPage();
@@ -249,6 +249,8 @@ public class UKFD_ERP_Testcases extends TestUtil {
 		itemfulfilmentPage=new ItemFulfilment();
 		itemReceiptPage =new ItemReceiptPage();
 		poPage=new PurchaseOrderPage();
+		try
+		{
 		customerPage.enter_Customer_details(Customer_Firstname, Customer_Lastname, Email, Phone, Address1, Address2, Address3, City, State, Zip, Customer_type, Role,Credit_Card_Number,NameOnCard,Expiry_Date,Security_Code,Payment_Method, test);
 		opprPage.enter_Opprnty_Details(Lead_source, test);
 		quotePage.enter_quote_details(Location, Item_Name, Quantity, Shipping_Method, test);
@@ -256,41 +258,29 @@ public class UKFD_ERP_Testcases extends TestUtil {
 		soPage.verifyEmail("Thanks for your order!", test);
 		soPage.salesOrderApproval(test);
 		soPage.verifyProcessedScreen(test);
-		soPage.verifySOStatus(test);
+		soPage.verifySOStatus("PENDING FULFILLMENT",test);
 		soPage.verifyEmail("Order Confirmation", test);
+		//Verifying Cash Sale
 		soPage.verifyCashSaleandPO("Cash Sale", test);
+		//Verifying Purchase Order
 		soPage.verifyCashSaleandPO("Purchase Order", test);
 		String sales_order_url=driver.getCurrentUrl();
+		//Navigating to PO from Related Records
 		soPage.navigatetoPO("Purchase Order");
-		poPage.navigateToReceive();
+		//Navigating to Item Receipt From PO
+		poPage.navigateToReceiveFromPO("Fulfilment");
 		itemReceiptPage.saveItemReceiptfromPO(SupplierDeliveryNote, test);
 		driver.navigate().to(sales_order_url);
 		soPage.waitUntilStockIsAutoCommitted(Quantity, test);
-		itemfulfilmentPage.item_Fulfillment(test); 
+		itemfulfilmentPage.item_Fulfillment(Bin,Quantity,test); 
+		itemfulfilmentPage.verify_fulfillment_status("SHIPPED",test);
 		itemfulfilmentPage.verify_sales_order_status("BILLED",test);
-		
+		}
+		catch(Exception e)
+		{
+			test.fail("Trade Order via Contact Centre - Carpet/Vinyl Credit Card is failed due to " +e.fillInStackTrace());
+		}
 			
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

@@ -18,11 +18,11 @@ public class PurchaseOrderPage extends TestUtil {
 		PageFactory.initElements(driver, this);
 	}
 
-	public void navigateToReceive() throws InterruptedException
+	public void navigateToReceiveFromPO(String role) throws InterruptedException
 	{
 		String url=driver.getCurrentUrl();
 		loginPage=new LoginPage();
-		loginPage.choose_required_role("Fulfilment");
+		loginPage.choose_required_role(role.trim());
 		driver.navigate().to(url);
 		eleAvailability(driver, receiveBtn, 20);
 		receiveBtn.click();
