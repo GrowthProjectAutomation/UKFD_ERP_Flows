@@ -66,6 +66,11 @@ public class ItemFulfilment extends TestUtil {
 		executor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
 		Thread.sleep(1500);
 		save_item_fulfilment.click();
+		
+		
+	}
+	public void verify_fulfillment_status(ExtentTest test)
+	{
 		eleAvailability(driver, fulfilment_status, 20);
 		if(fulfilment_status.getText().trim().equals("SHIPPED"))
 		{
@@ -77,13 +82,17 @@ public class ItemFulfilment extends TestUtil {
 		{
 			test.fail("Item Fulfilment is not created");
 		}
+
+	}
+	public void navigate_to_sales_order_from_fulfilment()
+	{
 		sales_order_link.click();
 		eleAvailability(driver, fulfilment_status, 10);
-		
-		
 	}
 	public void verify_sales_order_status_billed(ExtentTest test)
 	{
+		sales_order_link.click();
+		eleAvailability(driver, fulfilment_status, 10);
 		if(fulfilment_status.getText().trim().equals("BILLED"))
 		{
 			test.pass("Sales order is in "+fulfilment_status.getText() +" status");
@@ -96,6 +105,8 @@ public class ItemFulfilment extends TestUtil {
 	}
 	public void verify_sales_order_status_pending_billing(ExtentTest test)
 	{
+		sales_order_link.click();
+		eleAvailability(driver, fulfilment_status, 10);
 		if(fulfilment_status.getText().trim().equals("PENDING BILLING"))
 		{
 			test.pass("Sales order is in "+fulfilment_status.getText() +" status");

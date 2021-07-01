@@ -6,7 +6,10 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -21,6 +24,17 @@ import com.aventstack.extentreports.ExtentTest;
 import com.qa.util.TestUtil;
 
 public class SalesOrderPage extends TestUtil {
+	
+	
+	@FindBy(xpath = "//li[@data-title='Transactions']")
+	WebElement transcations_link;
+	
+	@FindBy(linkText="Sales")
+	WebElement sales_link;
+	
+	@FindBy(linkText="Enter Sales Orders")
+	WebElement enterSO_link;
+	
 	
 	@FindBy(xpath = "//input[@name='inpt_customform']")
 	WebElement formDropdown;
@@ -49,8 +63,14 @@ public class SalesOrderPage extends TestUtil {
 	@FindBy(xpath = "//div[@id='popup_outerdiv']//div[@id='inner_popup_div']//table//tr//td//following-sibling::td//a")
 	List<WebElement> customerSearchList;
 	
+	@FindBy(xpath = "//input[@name='inpt_leadsource']")
+	WebElement leadSourceDropdown;
+	
 	@FindBy(xpath = "//textarea[@name='custbody_instruction']")
 	WebElement delivery_instructions_textarea;
+	
+	@FindBy(xpath = "//input[@id='secondarycustpage_shippingext']")
+	WebElement secondary_calculate_shipping_button;
 		
 	@FindBy(xpath = "//button[contains(text(),'OK')]")
 	WebElement shipping_ok_button;
@@ -113,10 +133,13 @@ public class SalesOrderPage extends TestUtil {
 	WebElement related_records_tab;
 	
 	@FindBy(xpath = "//tr[contains(@id,'linksrow')]//td[count(//table[@id='links_splits']//td[@data-label='Type']//preceding-sibling::td)+1]")
-	WebElement transcation_type;
+	List<WebElement> transcation_type;
 	
 	@FindBy(xpath = "//tr[contains(@id,'linksrow')]//td[count(//table[@id='links_splits']//td[@data-label='Number']//preceding-sibling::td)+1]")
-	WebElement cash_sale_number;
+	List<WebElement> transcation_number;
+	
+	@FindBy(xpath = "//tr[contains(@id,'linksrow')]//td[count(//table[@id='links_splits']//td[@data-label='Type']//preceding-sibling::td)]//a")
+	List<WebElement> transcationLink;
 	
 	@FindBy(xpath = "//a[@id='cmmnctntabtxt']")
 	WebElement communication_tab;
@@ -187,7 +210,69 @@ public class SalesOrderPage extends TestUtil {
 	@FindBy(xpath = "//input[@id='custpage_printproforma']")
 	WebElement print_pro_forma;
 	
+	@FindBy(xpath="//span[@id='parent_actionbuttons_item_item_fs']")
+	WebElement Item_arrow;
 	
+	@FindBy(xpath="//a[@id='item_popup_list']")
+	WebElement item_list_option;
+	
+	@FindBy(xpath="//input[@id='st']")
+	WebElement Item_searchbox_textbox;
+	
+	@FindBy(xpath="//input[@id='Search']")
+	WebElement Item_search_searchbox_button;
+	
+	@FindBy(xpath = "//div[@id='popup_outerdiv']//div[@id='inner_popup_div']//table//tr//td//following-sibling::td//a")
+	List<WebElement> searchList;
+	
+	@FindBy(xpath="//div[@id='inner_popup_div']//table/tbody/tr//following-sibling::tr//td//following-sibling::td//a")
+	List<WebElement> items_list;
+	
+	@FindBy(xpath = "//table[@id='item_splits']//tr[contains(@class,'uir-machine-row-focused')]//td[count(//tr[@id='item_headerrow']//div[text()='Quantity']//parent::td//preceding-sibling::td)+1]")
+	WebElement quantity_click;
+	
+	@FindBy(xpath="//input[@id='quantity_formattedValue']")
+	WebElement Quantity;
+	
+	@FindBy(xpath = "//input[@id='item_addedit']")
+	WebElement itemAddBtn;
+	
+	
+	@FindBy(xpath = "//table[@id='item_splits']//tr[@id='item_headerrow']//following-sibling::tr//td[6]")
+	WebElement pack_price;
+	
+	@FindBy(xpath = "//table[@id='item_splits']//tr[contains(@id,'item_row_')]//td[count(//tr[@id='item_headerrow']//td[@data-label='Product Details']//preceding-sibling::td)]")
+	WebElement item_value_list;
+	
+	@FindBy(xpath = "//input[@id='item_item_display']")
+	WebElement item_input;
+	
+	@FindBy(xpath = "//input[@id='return']")
+	WebElement authorizeReturnButton;
+	
+	@FindBy(xpath = "//a[@id='paymentevent_displayval' and text()='View']")
+	WebElement viewLink;
+	
+	@FindBy(xpath = "//span[@id='paymentinstrumentmask_fs_lbl_uir_label']//following-sibling::span")
+	WebElement cardDetailsField;
+	
+	@FindBy(xpath = "//span[@id='cardnameoncard_fs_lbl_uir_label']//following-sibling::span")
+	WebElement cardHolderField;
+	
+	@FindBy(xpath = "//span[@id='request_fs_lbl_uir_label']//following-sibling::span")
+	WebElement spanText;
+
+	@FindBy(xpath = "//tr[@id='item_row_1']")
+	WebElement item_row;
+	
+	@FindBy(xpath = "//tr[contains(@id,'row')]//td[count(//td[@data-label='Original Number']//preceding-sibling::td)+1]//a")
+	WebElement processedSalesOrderLink;
+	
+	@FindBy(xpath = "//tr[contains(@id,'row')]//td[count(//td[@data-label='Status']//preceding-sibling::td)]//a")
+	WebElement processedPurchaseOrderLink;
+	
+	@FindBy(xpath = "//div[@class='uir-record-id']")
+	WebElement recordNumber;
 	
 	
 	
@@ -206,19 +291,68 @@ public class SalesOrderPage extends TestUtil {
 
 	}
 	
-	public void enter_SO_details(String formName,String delivery_Instructions, String shipping_Method,String expiry_Date, String customer_Lastname, ExtentTest test) throws Exception
+	public void navigateToSO() throws InterruptedException
+	{
+		eleAvailability(driver, transcations_link, 20);
+		Thread.sleep(1000);
+		action.moveToElement(transcations_link).build().perform();
+		Thread.sleep(1000);
+		action.moveToElement(sales_link).build().perform();
+		Thread.sleep(1000);
+		enterSO_link.click();
+	}
+	public void enter_SO_details(String formName,String delivery_Instructions, String shipping_Method,String Customer_Name, String item_Name, String quantity, String payment_Method, String terms, ExtentTest test) throws Exception
 	{
 		if(!formDropdown.getAttribute("value").trim().equals(formName))
 			selectDropdownValue(formDropdown, dropdownList, formName);
 		eleFocussed(customerBox);
 		eleAttributeToBeNotEmpty(driver, dateBox, 15, "value");
+		if(customerBox.getAttribute("value").trim().equals("")) {
+			selectValueFromList(customerArrowBtn, customerListBtn, searchBox, searchBtn, customerSearchList, Customer_Name);
+			eleattributeContainsText(driver, customerBox, 20, "value", Customer_Name);
+		}
 		delivery_instructions_textarea.sendKeys(delivery_Instructions.trim());
-		calculate_shipping_button.click();
+		executor.executeScript("arguments[0].scrollIntoView(true);", Item_arrow);
+		Thread.sleep(1000);
+		try
+		{
+		if(item_row.isDisplayed()==false)
+		{
+			selectValueFromList(Item_arrow, item_list_option, Item_searchbox_textbox, Item_search_searchbox_button, searchList, item_Name);
+			notTextToBePresentInElementValue(driver, pack_price, 100, "0.00");
+			Thread.sleep(3000);
+			quantity_click.click();
+			eleClickable(driver, Quantity, 5);
+			Quantity.sendKeys(quantity.trim());
+			itemAddBtn.click();
+			Thread.sleep(1000);
+			accept_alert();
+			
+		}
+		}
+		catch(NoSuchElementException e)
+		{
+			System.out.println("item is already present");
+		}
+		click(secondary_calculate_shipping_button);
+		Thread.sleep(1000);
 		eleAvailability(driver, shipping_ok_button, 10);
-		driver.findElement(By.xpath("//div[@class='x-grid3-scroller']//div[contains(text(),'"+shipping_Method.trim()+"')]")).click();
+		driver.findElement(By.xpath("//div[@class='x-grid3-scroller']//tbody//tr//div[contains(text(),'"+shipping_Method.trim()+"')]")).click();
 		eleClickable(driver, shipping_ok_button, 10);
 		shipping_ok_button.click();
 		Thread.sleep(1000);
+		action.moveToElement(second_sales_order_save_button).build().perform();
+		executor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
+		Thread.sleep(1000);
+		click(billing_tab);
+		eleAvailability(driver, terms_dropdown, 20);
+		if(terms.trim().equals("no"))
+		{
+		selectDropdownValue(terms_dropdown, dropdownList, "");
+		}
+		Thread.sleep(1000);
+		selectDropdownValue(select_payment_method, dropdownList,payment_Method );
+		click(second_sales_order_save_button);
 	}
 	public void provide_terms() throws InterruptedException
 	{
@@ -229,11 +363,24 @@ public class SalesOrderPage extends TestUtil {
 		selectDropdownValue(terms_dropdown, dropdownList, "");
 		executor.executeScript("arguments[0].scrollIntoView(true);", second_sales_order_save_button);
 		Thread.sleep(1500);
-		second_sales_order_save_button.click();
-		
-
-		
+		second_sales_order_save_button.click();		
 	}
+//	public void select_payment_from_list(String payment_method,String credit_crad_number,String security_code,String customer_name, ExtentTest test) throws InterruptedException
+//	{
+//		int credit_card_number=Integer.parseInt(credit_crad_number.trim());
+//		int last_four_digits=credit_card_number%10000;
+//		String requiured_card=payment_method+" "+"–"+" "+"*"+last_four_digits;
+//		Thread.sleep(1000);
+//		click(billing_tab);
+//		selectDropdownValue(select_payment_method, dropdownList, payment_method.trim());
+//		executor.executeScript("arguments[0].scrollIntoView(true);", select_credit_card);
+//		Thread.sleep(500);
+//		selectDropdownValue(select_credit_card, dropdownList, requiured_card);
+//		textToBePresentInElementValue(driver,ccname,15,customer_name);
+//		security_code_textbox.sendKeys(security_code.trim());
+//		Thread.sleep(500);
+//		click(second_sales_order_save_button);
+//	}
 	public void payment_details(String payment_Method, String credit_Card_Number, String security_Code, String expiry_Date, String customer_Firstname, String customer_Lastname,ExtentTest test) throws InterruptedException
 	{
 		executor.executeScript("arguments[0].scrollIntoView(true);", location);
@@ -264,71 +411,112 @@ public class SalesOrderPage extends TestUtil {
 		sales_order_approve_button.click();
 		eleAvailability(driver, sales_order_confirmation_message, 30);
 	
-		if(sales_order_confirmation_message.getText().trim().equals("Sales Order successfully Approved")&& sales_order_status.getText().trim().equals("PENDING FULFILLMENT"))
+		if(sales_order_confirmation_message.getText().trim().equals("Sales Order successfully Approved"))
 		{
-			System.out.println("Confirmation banner is displayed with pending fulfillment status");
-			test.pass("Confirmation Banner of Sales Order creation is displayed with "+ch+" "+ "Pending Fulfillment "+ch+" "+" Status");
+			System.out.println("Confirmation banner is displayed and Sales Order is approved successfully");
+			test.pass("Confirmation banner is displayed and Sales Order is approved successfully");
+		}
+		else if(processedSalesOrderLink.isDisplayed())
+		{
+			test.pass("Processed Screen is displayed with Processed PO Number");
 		}
 		else
 		{
-			test.pass("Confirmation Banner of Sales Order creation is not displayed with Pending Fulfillment Status");
+			test.pass("Confirmation banner is not displayed and Sales Order is approved successfully");
 
 		}
 	}
-	public void verifyCashSale(ExtentTest test) throws InterruptedException
+	public void verifySOStatus(ExtentTest test) 
+	{
+		eleAvailability(driver, sales_order_status, 20);
+		String tranNo = recordNumber.getText().trim();
+		String tranStatus = sales_order_status.getText().trim();
+		if(tranStatus.equals("PENDING FULFILLMENT")) 
+		{
+			System.out.println("Sales Order '"+tranNo+"' is displayed with "+tranStatus+" status");
+			test.pass("Sales Order '"+tranNo+"' is displayed with "+tranStatus+" status");
+		}
+		else
+		{
+			System.out.println("Sales Order '"+tranNo+"' is not displayed with "+tranStatus+" status");
+			test.fail("Sales Order '"+tranNo+"' is not displayed with "+tranStatus+" status");
+		}
+	}
+	public void verifyProcessedScreen(ExtentTest test)
+	{
+		if(processedSalesOrderLink.isDisplayed()&&processedPurchaseOrderLink.isDisplayed())
+		{
+			test.pass("Purchase Order is Processed with number "+processedPurchaseOrderLink.getText().trim() );
+			processedSalesOrderLink.click();
+		}
+		else
+		{
+			test.info("Purchase Order is not Processed as it not a special order item ");
+		}
+		
+	}
+	public void verifyCashSaleandPO(String Transaction,ExtentTest test) throws InterruptedException
 	{
 		executor.executeScript("arguments[0].scrollIntoView(true);", related_records_tab);
 		Thread.sleep(1500);
 		eleAvailability(driver, related_records_tab, 10);
 		related_records_tab.click();
-		if(transcation_type.getText().trim().equals("Cash Sale"))
+		boolean tran_created=false;
+		for(int i=0;i<transcation_type.size();i++)
 		{
-			System.out.println("Cash sale is created with "+ch+" "+cash_sale_number.getText().trim()+ch+" "+" number");
-			test.pass("Cash sale is created with "+ch+" "+cash_sale_number.getText().trim()+ch+" "+" number");
-
+		if(transcation_type.get(i).getText().trim().equals(Transaction.trim()))
+		{
+			tran_created=true;
+			System.out.println(Transaction+" is created with "+ch+" "+transcation_number.get(i).getText().trim()+ch+" "+" number");
+			test.pass(Transaction+" is created with "+ch+" "+transcation_number.get(i).getText().trim()+ch+" "+" number");
 		}
-		else
+		}
+		if(tran_created==false)
 		{
-			test.fail("Cash Sale is not Created");
+			test.fail(Transaction+ " is not Created");
 		}
 	
 	}
-	public void verifyEmail(ExtentTest test)
+	public void navigatetoPO(String Transaction) throws InterruptedException
 	{
-		communication_tab.click();
-		executor.executeScript("arguments[0].scrollIntoView(true);", subject.get(0));
-		for(int i=0;i<subject.size();i++)
-		{
-		if(subject.get(i).getText().trim().equals("Thanks for your order!"))
-		{
-			System.out.println("Order Processing Message is verified");
-			test.pass("Order Processing Message Email "+ch+" "+subject.get(i).getText().trim()+" "+ch+" is displayed");
-			break;
-		}
-		else
-		{
-			test.fail("Order Processing Email is not displayed");
-			break;
-		}
-		}
-		for(int i=0;i<subject.size();i++)
-		{
-		if(subject.get(i).getText().trim().equals("Your order has been confirmed"))
-		{
-			System.out.println("Order Confirmation is verified");
-			test.pass("Order Confirmation Message Email "+ch+" "+subject.get(i).getText().trim()+" "+ch+" is displayed");
-			break;
-		}
-		else
-		{
-			test.fail("Order Confirmation Email is not displayed");
-			break;
-		}
-		}
 		
+		
+		for(int i=0;i<transcation_type.size();i++)
+		{
+		if(transcation_type.get(i).getText().trim().equals(Transaction.trim()))
+		{
+			transcationLink.get(i).click();
+			break;
+		}
+		}
 		
 	}
-	public void auto_Commit_stock(String quantity, ExtentTest test) throws InterruptedException
+	public void verifyEmail(String subject, ExtentTest test) throws InterruptedException {
+		Thread.sleep(1500);
+		click(communication_tab);
+		executor.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+		try
+		{
+			eleAvailability(driver, By.xpath("//td[contains(text(),'"+subject+"')]"), 20);
+			WebElement emailId = driver.findElement(By.xpath("//td[contains(text(),'"+subject+"')]"));
+			if (emailId.isDisplayed()) 
+			{
+				System.out.println("Email with subject '"+subject+"' sent to the Customer");
+				test.pass("Email with subject '"+subject+"' sent to the Customer");
+			}
+			else
+			{
+				System.out.println("Email with subject '"+subject+"' is not send to the Customer");
+				test.fail("Email with subject '"+subject+"' is not to the Customer");
+			}
+		} 
+		catch (Exception e)
+		{
+			System.out.println("Email with subject '"+subject+"' is not  send to the Customer");
+			test.fail("Email with subject '"+subject+"' is not  send to the Customer");
+		}
+	}
+	public void waitUntilStockIsAutoCommitted(String quantity, ExtentTest test) throws InterruptedException
 	{
 		
 		String sales_order_url=driver.getCurrentUrl();
@@ -339,6 +527,7 @@ public class SalesOrderPage extends TestUtil {
 		Thread.sleep(1000);
 		executor.executeScript("arguments[0].scrollIntoView(true);", related_records_tab);
 		waitUntilScriptIsScheduled(committed_quantity,"0",2000);
+		Thread.sleep(1000);
 		if(committed_quantity.getText().trim().equals(quantity.trim()))
 		{
 			test.pass("Stock is auto committed");
@@ -347,8 +536,8 @@ public class SalesOrderPage extends TestUtil {
 		{
 			test.fail("Stock is not auto committed");
 		}
-	}	
-	
+	}
+
 	public void print_pro_froma_invoice(ExtentTest test) throws AWTException, InterruptedException
 	{
 		eleAvailability(driver, print_pro_forma, 20);
@@ -460,6 +649,45 @@ public class SalesOrderPage extends TestUtil {
 		{
 			test.fail("Pro-Forma Invoice is not emailed to the customer");
 		}
+	}
+	public void navigate_to_return_authorization(ExtentTest test) throws InterruptedException
+	{
+		String sales_order_url=driver.getCurrentUrl();
+		loginPage=new LoginPage();
+		loginPage.choose_required_role("Customer Services");
+		Thread.sleep(1000);
+		driver.navigate().to(sales_order_url);
+		eleAvailability(driver, authorizeReturnButton, 15);
+		authorizeReturnButton.click();
+	}
+	public Map<String, String> getPaymentData() throws InterruptedException {
+		JavascriptExecutor je = (JavascriptExecutor) driver;
+		Thread.sleep(2000);
+		eleClickable(driver, billing_tab, 10);
+		click(billing_tab);
+		je.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+		eleAvailability(driver, viewLink, 10);
+		viewLink.click();
+		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+	    driver.switchTo().window(tabs.get(1));
+	    action.moveToElement(cardHolderField).build().perform();
+	    String cardHolderName = cardHolderField.getText().trim(); 
+	    action.moveToElement(spanText).build().perform();
+	    String[] text = spanText.getText().split("\n");
+	    String cardNumber = "";
+	    for (int i = 0; i < text.length; i++) {
+			if(text[i].contains("card_accountNumber"))
+				cardNumber = text[i];
+		}
+	    cardNumber = cardNumber.split(":")[1].trim();
+	    driver.close();
+	    driver.switchTo().window(tabs.get(0));
+	    Map<String,String> paymentDetails = new HashMap<String, String>();
+//	    System.out.println(cardNumber+" "+cardHolderName);
+	    paymentDetails.put("cardNumber", cardNumber);
+	    paymentDetails.put("cardHolderName", cardHolderName);
+	    
+	    return paymentDetails;
 	}
 		
 	}

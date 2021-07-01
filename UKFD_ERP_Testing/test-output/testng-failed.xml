@@ -3,15 +3,15 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.qa.testcases.SalesOrder_ContactCentre">
+      <class name="com.qa.testcases.UKFD_ERP_Testcases">
         <methods>
           <include name="tearDown"/>
-          <include name="endReport"/>
           <include name="setExtent"/>
           <include name="setUp"/>
-          <include name="so_Creation_Trade_Centre" invocation-numbers="0"/>
+          <include name="so_Creation_Contact_Centre" invocation-numbers="0"/>
+          <include name="endReport"/>
         </methods>
-      </class> <!-- com.qa.testcases.SalesOrder_ContactCentre -->
+      </class> <!-- com.qa.testcases.UKFD_ERP_Testcases -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

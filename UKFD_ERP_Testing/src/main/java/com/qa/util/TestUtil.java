@@ -1,6 +1,9 @@
  package com.qa.util;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -157,6 +160,10 @@ public class TestUtil {
 	public static void eleAttributeToBeNotEmpty(WebDriver driver, WebElement element, int time, String attribute) {
 		new WebDriverWait(driver, time).until(ExpectedConditions.attributeToBeNotEmpty(element, attribute));
 	}
+	public static void eleattributeContainsText(WebDriver driver, WebElement element, int time, String attribute, String value) {
+		new WebDriverWait(driver, time).until(ExpectedConditions.attributeContains(element, attribute, value));
+	}
+	
 	public void waitUntilTextNotToBeInWebElement(WebElement element, String textValue, int time) throws InterruptedException {
 	    int timer = 0;
 	    final int pollInterval = 500;
@@ -256,7 +263,7 @@ public class TestUtil {
 		eleClickable(driver, searchBox, 30);
 		searchBox.sendKeys(value);
 		searchBtn.click();
-		eleAvailability(driver, By.xpath("//a[contains(text(),'"+value+"')]"), 30);
+		eleAvailability(driver, By.xpath("//a[contains(text(),'"+value.trim()+"')]"), 30);
 		Thread.sleep(1500);
 		for(int j=0;j<searchList.size();j++) {
 			String parentCustomer = searchList.get(j).getText().trim();
@@ -288,6 +295,18 @@ public class TestUtil {
 	public void click(WebElement element) {
 		action = new Actions(driver);
 		action.moveToElement(element).click().build().perform();
+	}
+	
+	public String required_date(String no_of_days) throws ParseException
+	{
+		Calendar cal = Calendar.getInstance();
+        SimpleDateFormat format1 = new SimpleDateFormat("d/M/yyyy");
+        String today_date = format1.format(cal.getTime());
+        System.out.println(today_date);
+        cal.setTime(format1.parse(today_date));
+        cal.add(Calendar.DATE,Integer.parseInt(no_of_days));
+        String next_day=format1.format(cal.getTime());
+        return next_day;
 	}
 	
 	

@@ -108,11 +108,49 @@ public class CustomerPage extends TestUtil{
 	@FindBy(xpath = "//a[@id='financialtxt']")
 	WebElement financial_tab;
 	
+	@FindBy(xpath = "//input[@id='inpt_currency32']")
+	WebElement currencyDropdown;
+	
+	@FindBy(xpath = "//input[@id='currency_addedit']")
+	WebElement addCurrency;
+	
+	@FindBy(xpath = "//a[@id='creditcardstxt']")
+	WebElement creditCardSublist;
+	
+	@FindBy(xpath = "//input[@name='ccnumber']")
+	WebElement ccnumnberTextBox;
+	
+	@FindBy(xpath = "//table[@id='creditcards_splits']//tr[@id='creditcards_headerrow']//following-sibling::tr[@class='uir-machine-row uir-machine-row-odd listtextnonedit uir-machine-row-focused']//td[count(//tr[@id='creditcards_headerrow']//td[@data-label='Expiration Date']//preceding-sibling::td)+1]")
+	WebElement expiryDateClick;
+	
+	@FindBy(xpath = "//input[@name='ccexpiredate']")
+	WebElement expiryDateTextBox;
+	
+	@FindBy(xpath = "//table[@id='creditcards_splits']//tr[@id='creditcards_headerrow']//following-sibling::tr[@class='uir-machine-row uir-machine-row-odd listtextnonedit uir-machine-row-focused']//td[count(//tr[@id='creditcards_headerrow']//td[@data-label='Card State']//preceding-sibling::td)]")
+	WebElement creditCardTypeClick;
+	
+	@FindBy(xpath = "//input[@name='inpt_paymentmethod']")
+	WebElement creditCardTypeDropDown;
+	
+	@FindBy(xpath = "//table[@id='creditcards_splits']//tr[@id='creditcards_headerrow']//following-sibling::tr[@class='uir-machine-row uir-machine-row-odd listtextnonedit uir-machine-row-focused']//td[count(//tr[@id='creditcards_headerrow']//td[@data-label='Default Credit Card']//preceding-sibling::td)+1]")
+	WebElement defaultCreditCardClick;
+	
+	@FindBy(xpath = "//input[@name='ccdefault']//following-sibling::img")
+	WebElement defaultCreditCard;
+	
 	@FindBy(xpath = "//input[@name='inpt_creditholdoverride']")
 	WebElement credit_card_hold;
 	
+	@FindBy(xpath = "//table[@id='creditcards_splits']//tr[@id='creditcards_headerrow']//following-sibling::tr[@class='uir-machine-row uir-machine-row-odd listtextnonedit uir-machine-row-focused']//td[count(//tr[@id='creditcards_headerrow']//td[@data-label='Credit Card Type']//preceding-sibling::td)])")
+	WebElement cardHolderNameClick;
 	
+	@FindBy(xpath = "//input[@id='creditcards_addedit']")
+	WebElement addCreditCard;
 	
+	@FindBy(xpath = "//input[@name='ccname']")
+	WebElement cardHolderNameTextBox;
+	
+
 	
 	
 	
@@ -137,7 +175,7 @@ public class CustomerPage extends TestUtil{
 		Thread.sleep(500);
 		action.moveToElement(New_link).click().build().perform();
 	}
-	public void enter_Customer_details(String customer_Firstname, String customer_Lastname, String email, String phone, String address1, String address2, String address3, String city, String state, String zip, String customer_type_value, String role, ExtentTest test) throws InterruptedException
+	public void enter_Customer_details(String customer_Firstname, String customer_Lastname, String email, String phone, String address1, String address2, String address3, String city, String state, String zip, String customer_type_value, String role, String credit_Card_Number, String nameOnCard, String expiry_Date, String security_Code, String payment_Method, ExtentTest test) throws InterruptedException
 	{
 		loginPage=new LoginPage();
 		loginPage.choose_required_role(role.trim());
@@ -157,13 +195,36 @@ public class CustomerPage extends TestUtil{
 		phone_number_textbox.sendKeys(phone.trim());
 		financial_tab.click();
 		Thread.sleep(1000);
+		selectDropdownValue(currencyDropdown, dropdownList, "GBP");
+		addCurrency.click();
+		Thread.sleep(1500);
+		creditCardSublist.click();
+		eleAvailability(driver, ccnumnberTextBox, 15);
+		ccnumnberTextBox.sendKeys(credit_Card_Number.trim());
+		Thread.sleep(1500);
+		eleClickable(driver, expiryDateClick, 10);
+		click(expiryDateClick);
+		expiryDateClick.click();
+		expiryDateTextBox.sendKeys(expiry_Date);
+		Thread.sleep(1500);
+		//eleClickable(driver, cardHolderNameClick, 20);
+		//action.doubleClick(cardHolderNameClick).build().perform();
+		cardHolderNameTextBox.sendKeys(nameOnCard.trim());
+		Thread.sleep(1000);
+		eleClickable(driver, creditCardTypeClick, 20);
+		action.doubleClick(creditCardTypeClick).build().perform();
+		selectDropdownValue(creditCardTypeDropDown, dropdownList, payment_Method.trim());
+		Thread.sleep(1500);
+		eleClickable(driver, defaultCreditCardClick, 10);
+		defaultCreditCardClick.click();
+		defaultCreditCard.click();
+		addCreditCard.click();
 		executor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
 		Thread.sleep(1000);
 		action.moveToElement(credit_card_hold).build().perform();
 		Thread.sleep(1000);
 		selectDropdownValue(credit_card_hold, dropdownList, "Off");
 		address_tab.click();
-		//action.moveToElement(address_edit_link).build().perform();
 		Thread.sleep(500);
 		address_edit_link.click();
 		driver.switchTo().frame("childdrecord_frame");
