@@ -1,230 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2021-06-30T17:52:45Z" name="Default suite" finished-at="2021-06-30T18:00:46Z" duration-ms="480089">
+  <suite started-at="2021-07-09T17:16:28Z" name="Default suite" finished-at="2021-07-09T17:31:17Z" duration-ms="888889">
     <groups>
     </groups>
-    <test started-at="2021-06-30T17:52:45Z" name="Default test" finished-at="2021-06-30T18:00:46Z" duration-ms="480089">
+    <test started-at="2021-07-09T17:16:28Z" name="Default test" finished-at="2021-07-09T17:31:17Z" duration-ms="888889">
       <class name="com.qa.testcases.UKFD_ERP_Testcases">
-        <test-method is-config="true" signature="setExtent()[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@363ee3a2]" started-at="2021-06-30T17:52:45Z" name="setExtent" finished-at="2021-06-30T17:52:46Z" duration-ms="244" status="PASS">
+        <test-method is-config="true" signature="setExtent()[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@47d90b9e]" started-at="2021-07-09T17:16:28Z" name="setExtent" finished-at="2021-07-09T17:16:28Z" duration-ms="268" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setExtent -->
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@363ee3a2]" started-at="2021-06-30T17:52:46Z" name="setUp" finished-at="2021-06-30T17:52:57Z" duration-ms="11668" status="PASS">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@47d90b9e]" started-at="2021-07-09T17:16:28Z" name="setUp" finished-at="2021-07-09T17:16:48Z" duration-ms="19955" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="so_Creation_Contact_Centre(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.UKFD_ERP_Testcases@363ee3a2]" started-at="2021-06-30T17:52:58Z" name="so_Creation_Contact_Centre" data-provider="Carpet_Vinyl" finished-at="2021-06-30T18:00:41Z" duration-ms="463337" status="FAIL">
+        <test-method signature="TradeOrderViaContactCentreCarpet(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.UKFD_ERP_Testcases@47d90b9e]" started-at="2021-07-09T17:16:50Z" name="TradeOrderViaContactCentreCarpet" data-provider="TradeOrderViaContactCentreCarpet" finished-at="2021-07-09T17:31:12Z" duration-ms="861959" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[Test_ukfd]]>
+                <![CDATA[1341117 sindhuja return]]>
               </value>
             </param>
             <param index="1">
               <value>
-                <![CDATA[customer3]]>
+                <![CDATA[CAR-MAD-OSC : CAR-MAD-OSC-4]]>
               </value>
             </param>
             <param index="2">
               <value>
-                <![CDATA[abc@gmail.com]]>
+                <![CDATA[1]]>
               </value>
             </param>
             <param index="3">
               <value>
-                <![CDATA[123456789]]>
+                <![CDATA[Carpet Delivery Test]]>
               </value>
             </param>
             <param index="4">
               <value>
-                <![CDATA[West]]>
+                <![CDATA[N/A]]>
               </value>
             </param>
             <param index="5">
               <value>
-                <![CDATA[Pannels Ash]]>
+                <![CDATA[]]>
               </value>
             </param>
             <param index="6">
               <value>
-                <![CDATA[Pentlow]]>
+                <![CDATA[737]]>
               </value>
             </param>
             <param index="7">
               <value>
-                <![CDATA[Sudbury]]>
+                <![CDATA[UKFD Sales Order Proforma (2)]]>
               </value>
             </param>
             <param index="8">
               <value>
-                <![CDATA[Essex]]>
+                <![CDATA[4739617]]>
               </value>
             </param>
             <param index="9">
               <value>
-                <![CDATA[CO10 7JT]]>
+                <![CDATA[test]]>
               </value>
             </param>
             <param index="10">
               <value>
-                <![CDATA[5 Call Centre]]>
-              </value>
-            </param>
-            <param index="11">
-              <value>
-                <![CDATA[CAR-MAD-OSC : CAR-MAD-OSC-4]]>
-              </value>
-            </param>
-            <param index="12">
-              <value>
-                <![CDATA[1]]>
-              </value>
-            </param>
-            <param index="13">
-              <value>
-                <![CDATA[Logix Road]]>
-              </value>
-            </param>
-            <param index="14">
-              <value>
-                <![CDATA[Carpet Delivery Test]]>
-              </value>
-            </param>
-            <param index="15">
-              <value>
-                <![CDATA[N/A]]>
-              </value>
-            </param>
-            <param index="16">
-              <value>
-                <![CDATA[Master Card]]>
-              </value>
-            </param>
-            <param index="17">
-              <value>
-                <![CDATA[5555555555554444]]>
-              </value>
-            </param>
-            <param index="18">
-              <value>
-                <![CDATA[03/2030]]>
-              </value>
-            </param>
-            <param index="19">
-              <value>
-                <![CDATA[Sindhuja]]>
-              </value>
-            </param>
-            <param index="20">
-              <value>
-                <![CDATA[737]]>
-              </value>
-            </param>
-            <param index="21">
-              <value>
-                <![CDATA[UKFD Sales Order Proforma (2)]]>
-              </value>
-            </param>
-            <param index="22">
-              <value>
-                <![CDATA[Trade]]>
-              </value>
-            </param>
-            <param index="23">
-              <value>
-                <![CDATA[Trade Sales]]>
-              </value>
-            </param>
-            <param index="24">
-              <value>
-                <![CDATA[no]]>
-              </value>
-            </param>
-            <param index="25">
-              <value>
-                <![CDATA[test]]>
+                <![CDATA[A002]]>
               </value>
             </param>
           </params>
-          <exception class="org.openqa.selenium.UnhandledAlertException">
-            <message>
-              <![CDATA[unexpected alert open: {Alert text : Please configure the inventory detail in line 1 of the item list.}
-  (Session info: chrome=91.0.4472.124): Please configure the inventory detail in line 1 of the item list.
-Build info: version: '4.0.0-alpha-3', revision: '8c567de6dc'
-System info: host: 'DESKTOP-M43AUF8', ip: '192.168.1.3', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 91.0.4472.124, chrome: {chromedriverVersion: 90.0.4430.24 (4c6d850f087da..., userDataDir: C:\Users\Sindhuja\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:59015}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: ea41c2f75aefefccb28d3cc627b6a58e
-*** Element info: {Using=xpath, value=//span[@id='createdfrom_lbl_uir_label']//following-sibling::span}]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.openqa.selenium.UnhandledAlertException: unexpected alert open: {Alert text : Please configure the inventory detail in line 1 of the item list.}
-  (Session info: chrome=91.0.4472.124): Please configure the inventory detail in line 1 of the item list.
-Build info: version: '4.0.0-alpha-3', revision: '8c567de6dc'
-System info: host: 'DESKTOP-M43AUF8', ip: '192.168.1.3', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 91.0.4472.124, chrome: {chromedriverVersion: 90.0.4430.24 (4c6d850f087da..., userDataDir: C:\Users\Sindhuja\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:59015}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: ea41c2f75aefefccb28d3cc627b6a58e
-*** Element info: {Using=xpath, value=//span[@id='createdfrom_lbl_uir_label']//following-sibling::span}
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:123)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
-at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
-at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
-at org.openqa.selenium.support.pagefactory.DefaultElementLocator.findElement(DefaultElementLocator.java:70)
-at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:39)
-at jdk.proxy2/jdk.proxy2.$Proxy16.click(Unknown Source)
-at com.qa.pages.ItemFulfilment.verify_sales_order_status_billed(ItemFulfilment.java:94)
-at com.qa.testcases.UKFD_ERP_Testcases.so_Creation_Contact_Centre(UKFD_ERP_Testcases.java:270)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:567)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
-at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
-at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
-at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-at org.testng.TestRunner.privateRun(TestRunner.java:648)
-at org.testng.TestRunner.run(TestRunner.java:505)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-at org.testng.TestNG.runSuites(TestNG.java:1049)
-at org.testng.TestNG.run(TestNG.java:1017)
-at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
-at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.UnhandledAlertException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- so_Creation_Contact_Centre -->
-        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@363ee3a2]" started-at="2021-06-30T18:00:41Z" name="tearDown" finished-at="2021-06-30T18:00:41Z" duration-ms="1" status="PASS">
+        </test-method> <!-- TradeOrderViaContactCentreCarpet -->
+        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@47d90b9e]" started-at="2021-07-09T17:31:12Z" name="tearDown" finished-at="2021-07-09T17:31:12Z" duration-ms="2" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=so_Creation_Contact_Centre status=FAILURE method=UKFD_ERP_Testcases.so_Creation_Contact_Centre(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.UKFD_ERP_Testcases@363ee3a2] output={null}]]]>
+                <![CDATA[[TestResult name=TradeOrderViaContactCentreCarpet status=SUCCESS method=UKFD_ERP_Testcases.TradeOrderViaContactCentreCarpet(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:com.qa.testcases.UKFD_ERP_Testcases@47d90b9e] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-        <test-method is-config="true" signature="endReport()[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@363ee3a2]" started-at="2021-06-30T18:00:41Z" name="endReport" finished-at="2021-06-30T18:00:46Z" duration-ms="4288" status="PASS">
+        <test-method is-config="true" signature="endReport()[pri:0, instance:com.qa.testcases.UKFD_ERP_Testcases@47d90b9e]" started-at="2021-07-09T17:31:12Z" name="endReport" finished-at="2021-07-09T17:31:17Z" duration-ms="5180" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- endReport -->

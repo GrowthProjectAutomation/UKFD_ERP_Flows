@@ -120,94 +120,150 @@ public class UKFD_ERP_Testcases extends TestUtil {
 	}
 
 	@DataProvider
-	public Object[][] UKFD_Contact_Centre() throws IOException {
+	public Object[][] UKFD_SalesOrderViaContactCentre() throws IOException {
 		reader = new ExcelReader();
-		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD(Contact_centre).xlsx", 0);
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 0);
 	}
 	@DataProvider
-	public Object[][] UKFD_Trade_Centre() throws IOException {
+	public Object[][] UKFD_TradeOrderViaContactCentre() throws IOException {
 		reader = new ExcelReader();
-		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD(Contact_centre).xlsx", 1);
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 1);
 	}
 	@DataProvider
-	public Object[][] UKFD_Return() throws IOException {
+	public Object[][] UKFD_TraderOrderViaContactCentre_30DaysPayment() throws IOException {
 		reader = new ExcelReader();
-		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD(Contact_centre).xlsx", 2);
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 2);
 	}
 	@DataProvider
-	public Object[][] Carpet_Vinyl() throws IOException {
+	public Object[][] UKFD_PartialReturnPostShipment() throws IOException {
 		reader = new ExcelReader();
-		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD(Contact_centre).xlsx", 3);
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 3);
 	}
-
+	@DataProvider
+	public Object[][] UKFD_FullReturnPostShipment() throws IOException {
+		reader = new ExcelReader();
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 4);
+	}
+	@DataProvider
+	public Object[][] TradeOrderCarpetVinyl() throws IOException {
+		reader = new ExcelReader();
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 7);
+	}
+	@DataProvider
+	public Object[][] CarpetAndUKFDFulfilledCarpetAccessory() throws IOException {
+		reader = new ExcelReader();
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 5);
+	}
+	@DataProvider
+	public Object[][] NewCarpetAndExistingCarpet() throws IOException {
+		reader = new ExcelReader();
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 6);
+	}
+	@DataProvider
+	public Object[][] TradeOrderViaContactCentreCarpet() throws IOException {
+		reader = new ExcelReader();
+		return reader.readExcelData("C:\\Users\\Sindhuja\\Desktop\\UKFD_ERP_SHEET.xlsx", 8);
+	}
+	
+	
 	@BeforeClass
 	public void setUp() throws InterruptedException {
 		testBase=new TestUtil();
 		testBase.setUp();
 	}
-//
-//	@Test(dataProvider = "UKFD_Contact_Centre",priority = 1)
-//	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String Sales_Order_Form,String Customer_type,String Role) throws Exception {
+
+	//Testcase 4
+//	@Test(dataProvider = "UKFD_SalesOrderViaContactCentre",priority = 1)
+//	public void UKFD_SalesOrderViaContactCentre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String NameOnCard,String Sales_Order_Form,String Customer_type,String Bin) throws Exception {
 //		customerPage=new CustomerPage();
 //		opprPage=new OpportunityPage();
 //		quotePage=new QuotePage();
 //		soPage=new SalesOrderPage();
+//		String Terms="";
 //		itemfulfilmentPage=new ItemFulfilment();
-//		
-//		if(Customer_type.trim().equals("General"))
-//		{
 //		test=extent.createTest("Verifying New Sales Order creation via Contact Centre / Showroom  - Credit/Debit Card ");
-//		}
-//		else
-//		{
-//			test=extent.createTest("Verifying Trade Order via Contact Centre - Credit Card");
-//		}
-//		customerPage.enter_Customer_details(Customer_Firstname,Customer_Lastname,Email,Phone,Address1,Address2,Address3,City,State,Zip,Customer_type,Role,test);
+//		customerPage.enter_Customer_details(Customer_Firstname, Customer_Lastname, Email, Phone, Address1, Address2, Address3, City, State, Zip, Customer_type,"Showroom",Credit_Card_Number,NameOnCard,Expiry_Date,Security_Code,Payment_Method, test);
 //		opprPage=new OpportunityPage();
 //		opprPage.enter_Opprnty_Details(Lead_source,test);
 //		quotePage.enter_quote_details(Location,Item_Name,Quantity,Shipping_Method,test);
-//		soPage.enter_SO_details(Sales_Order_Form,Delivery_Instructions,Shipping_Method,Customer_Firstname,Customer_Lastname,test);
-//		soPage.payment_details(Payment_Method, Credit_Card_Number, Security_Code, Expiry_Date, Customer_Firstname, Customer_Lastname, test);
+//		soPage.enter_SO_details(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_Firstname, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
+//		soPage.verifyEmail("Thanks for your order!", test);
 //		soPage.salesOrderApproval(test);
-//		soPage.verifyCashSale(test);
-//		soPage.verifyEmail(test);
-//		soPage.auto_Commit_stock(Quantity,test);
-//		itemfulfilmentPage.item_Fulfillment(test);
+//		soPage.verifySOStatus("PENDING FULFILLMENT", test);
+//		soPage.verifyEmail("Your order has been confirmed", test); 
+//		soPage.verifyCashSaleandPO("Cash Sale", test); 
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+//		soPage.verifySOStatus("BILLED",test);
 //	}
-//	@Test(dataProvider = "UKFD_Trade_Centre",priority = 1)
-//	public void so_Creation_Trade_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String Sales_Order_Form,String Customer_type,String Role) throws Exception {
+//	
+	
+	//Testcase 16
+//	@Test(dataProvider = "UKFD_TradeOrderViaContactCentre",priority = 1)
+//	public void UKFD_TradeOrderViaContactCentre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String Security_Code,String NameOnCard,String Sales_Order_Form,String Customer_type,String Bin) throws Exception {
+//		customerPage=new CustomerPage();
+//		opprPage=new OpportunityPage();
+//		quotePage=new QuotePage();
+//		soPage=new SalesOrderPage();
+//		String Terms="";
+//		itemfulfilmentPage=new ItemFulfilment();
+//		test=extent.createTest("Verifying Trade Order via Contact Centre - Credit Card");
+//		customerPage.enter_Customer_details(Customer_Firstname, Customer_Lastname, Email, Phone, Address1, Address2, Address3, City, State, Zip, Customer_type,"Trade Sales",Credit_Card_Number,NameOnCard,Expiry_Date,Security_Code,Payment_Method, test);
+//		opprPage=new OpportunityPage();
+//		opprPage.enter_Opprnty_Details(Lead_source,test);
+//		quotePage.enter_quote_details(Location,Item_Name,Quantity,Shipping_Method,test);
+//		soPage.enter_SO_details(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_Firstname, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
+//		soPage.verifyEmail("Thanks for your order!", test);
+//		soPage.salesOrderApproval(test);
+//		soPage.verifySOStatus("PENDING FULFILLMENT", test);
+//		soPage.verifyEmail("Your order has been confirmed", test); 
+//		soPage.verifyCashSaleandPO("Cash Sale", test); 
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+//		soPage.verifySOStatus("BILLED",test);
+//	}
+	
+	//Testcase 17
+//	@Test(dataProvider = "UKFD_TraderOrderViaContactCentre_30DaysPayment",priority = 1)
+//	public void UKFD_TraderOrderViaContactCentre_30DaysPayment(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String CreditCardType,String Credit_Card_Number,String Expiry_Date,String Security_Code,String NameOnCard,String Sales_Order_Form,String Customer_type,String Bin) throws Exception {
 //		customerPage=new CustomerPage();
 //		opprPage=new OpportunityPage();
 //		quotePage=new QuotePage();
 //		soPage=new SalesOrderPage();
 //		itemfulfilmentPage=new ItemFulfilment();
-//		test=extent.createTest("Trade Order via Contact Centre - Credit Account");
-//		customerPage.enter_Customer_details(Customer_Firstname,Customer_Lastname,Email,Phone,Address1,Address2,Address3,City,State,Zip,Customer_type,Role,test);
-//		opprPage.enter_Opprnty_Details(Lead_source,test);
-//		quotePage.enter_quote_details(Location,Item_Name,Quantity,Shipping_Method,test);
-//		soPage.enter_SO_details(Sales_Order_Form,Delivery_Instructions,Shipping_Method,Customer_Firstname,Customer_Lastname,test);
-//		soPage.provide_terms();
-//		soPage.print_pro_froma_invoice(test);
-//		soPage.email_pro_forma(test);
-//		soPage.verify_profromaemail(test);
+//		String Terms="";
+//		try
+//		{
+//		test=extent.createTest("Verifying Trade Order via Contact Centre - Credit Account  (i.e. 30 days payment from despatch)");
+//		customerPage.enter_Customer_details(Customer_Firstname, Customer_Lastname, Email, Phone, Address1, Address2, Address3, City, State, Zip, Customer_type,"Trade Sales",Credit_Card_Number,NameOnCard,Expiry_Date,Security_Code,CreditCardType, test);
+//		opprPage.enterOpprntyDetails(Lead_source,test);
+//		quotePage.enterQuoteDetails(Location,Item_Name,Quantity,Shipping_Method,test);
+//		soPage.enterSoDetails(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_Firstname, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
+//		soPage.verifyEmail("Thanks for your order!", test);
+//		soPage.printProFormaInvoice("profromatest33.pdf",test);
+//		soPage.emailProFormaInvoice("profromatest33.pdf",test);
+//		soPage.verifyProFormaInvoice("profromatest33.pdf",test);	
 //		soPage.salesOrderApproval(test);
-//		soPage.auto_Commit_stock(Quantity, test);
-//		itemfulfilmentPage.item_Fulfillment(test);
-//		itemfulfilmentPage.verify_sales_order_status_pending_billing(test);
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+//		soPage.verifySOStatus("PENDING BILLING",test);
+//		}
+//		catch(Exception e)
+//		{
+//			test.fail("Verifying Trade Order via Contact Centre - Credit Account  (i.e. 30 days payment from despatch) is failed due to  "+e.fillInStackTrace() );
+//		}
 //		
 //	}
 
-//	@Test(dataProvider = "UKFD_Return",priority = 1)
-//	public void so_Creation_Return(String Customer_Name,String Item_Name, String Quantity,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Security_Code,String Sales_Order_Form,String Role,String Only_Name,String Terms,	String Return_Reason,String Return_Responsibility,String Return_Notes,String Return_Subtype,String Return_Reason3,String Return_reason4,String Supplier_Delivery_Note) throws Exception
+	//Testcase12
+//	@Test(dataProvider = "UKFD_FullReturnPostShipment",priority = 1)
+//	public void UKFD_FullReturnPostShipment(String Customer_Name,String Item_Name, String Quantity,String ReturnQuantity,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Security_Code,String Sales_Order_Form,String Return_Reason,String Return_Responsibility,String Return_Notes,String Return_Subtype,String Return_Reason3,String Return_reason4,String Supplier_Delivery_Note,String Bin) throws Exception
 //	{
-//		if(Supplier_Delivery_Note.trim().equals("partial return"))
-//		{
-//		test=extent.createTest("Verifying Partial Order Return (Post Shipmet)");
-//		}
-//		else
-//		{
-//			test=extent.createTest("Verifying Full Order Return(Post Shipment)");
-//		}
+//		
+//		test=extent.createTest("Verifying Full Order Return(Post Shipment)");
 //		loginPage=new LoginPage();
 //		soPage=new SalesOrderPage();
 //		itemfulfilmentPage=new ItemFulfilment();
@@ -215,21 +271,22 @@ public class UKFD_ERP_Testcases extends TestUtil {
 //		itemReceiptPage=new ItemReceiptPage(); 
 //		creditMemoPage=new CreditMemoPage();
 //		customerRefundPage=new CustomerRefundPage();
-//		loginPage.choose_required_role(Role.trim());
+//		String Terms="yes";
+//		loginPage.choose_required_role("Customer Service");
 //		soPage.navigateToSO();
-//		soPage.enter_SO_details(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_Name,Item_Name,Quantity, Payment_Method,test);
+//		soPage.enterSoDetails(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_Name, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
 //		soPage.salesOrderApproval(test);
 //		Map<String, String> paymentData = soPage.getPaymentData();
-//		soPage.waitUntilStockIsAutoCommitted(Quantity, test);
-//		itemfulfilmentPage.item_Fulfillment(test);
-//		itemfulfilmentPage.navigate_to_sales_order_from_fulfilment();
-//		soPage.navigate_to_return_authorization(test);
-//		returnPage.saveReturnOrder(Quantity,Return_Reason, Return_Responsibility, Return_Notes, Return_Subtype, Return_Reason3, Return_reason4,Supplier_Delivery_Note, test);
-//		returnPage.navigateToItemReceipt();
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+// 		soPage.navigate_to_return_authorization(test);
+//		returnPage.saveReturnOrder(Quantity,ReturnQuantity,Return_Reason, Return_Responsibility, Return_Notes, Return_Subtype, Return_Reason3, Return_reason4,Supplier_Delivery_Note, test);
+//		returnPage.navigateToItemReceipt("Fulfilment");
 //		itemReceiptPage.saveItemReceipt(Supplier_Delivery_Note,test);
 //		itemReceiptPage.verifyItemReceiptStatus(test);
-//		itemReceiptPage.navigateToReturnAuthorization();
-//		itemReceiptPage.navigateToCreditMemo();
+//		itemReceiptPage.navigateToReturnAuthorization("Customer Service");
+//		itemReceiptPage.navigateToCreditMemo("Finance");
 //		creditMemoPage.saveCreditMemo();
 //		creditMemoPage.verifyCreditMemoStatus(test);
 //		creditMemoPage.navigateToCustomerRefund();
@@ -237,50 +294,238 @@ public class UKFD_ERP_Testcases extends TestUtil {
 //		
 //	}
 	
-	@Test(dataProvider = "Carpet_Vinyl",priority = 1)
-	public void so_Creation_Contact_Centre(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String NameOnCard,String Security_Code,String Sales_Order_Form,String Customer_type,String Role,String SupplierDeliveryNote,String Bin) throws Exception 
+	//Testcase 11
+//	@Test(dataProvider = "UKFD_PartialReturnPostShipment",priority = 1)
+//	public void UKFD_PartialReturnPostShipment(String Customer_Name,String Item_Name, String Quantity,String ReturnQuantity,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Security_Code,String Sales_Order_Form,String Return_Reason,String Return_Responsibility,String Return_Notes,String Return_Subtype,String Return_Reason3,String Return_reason4,String Supplier_Delivery_Note,String Bin) throws Exception
+//	{
+//		
+//		test=extent.createTest("Verifying Partial Order Return (Post Shipmet)");
+//		loginPage=new LoginPage();
+//		soPage=new SalesOrderPage();
+//		itemfulfilmentPage=new ItemFulfilment();
+//		returnPage=new ReturnAuthorizationPage();
+//		itemReceiptPage=new ItemReceiptPage(); 
+//		creditMemoPage=new CreditMemoPage();
+//		customerRefundPage=new CustomerRefundPage();
+//		String Terms="yes";
+//		loginPage.choose_required_role("Customer Service");
+//		soPage.navigateToSO();
+//		soPage.enterSoDetails(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_Name, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
+//		soPage.salesOrderApproval(test);
+//		Map<String, String> paymentData = soPage.getPaymentData();
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+//		soPage.navigate_to_return_authorization(test);
+//		returnPage.saveReturnOrder(Quantity,ReturnQuantity,Return_Reason, Return_Responsibility, Return_Notes, Return_Subtype, Return_Reason3, Return_reason4,Supplier_Delivery_Note, test);
+//		returnPage.navigateToItemReceipt("Fulfilment");
+//		itemReceiptPage.saveItemReceipt(Supplier_Delivery_Note,test);
+//		itemReceiptPage.verifyItemReceiptStatus(test);
+//		itemReceiptPage.navigateToReturnAuthorization("Customer Service");
+//		itemReceiptPage.navigateToCreditMemo("Finance");
+//		creditMemoPage.saveCreditMemo();
+//		creditMemoPage.verifyCreditMemoStatus(test);
+//		creditMemoPage.navigateToCustomerRefund();
+//		customerRefundPage.saveCustomerRefund(paymentData, test);
+//		
+//	}
+//	
+	
+	//Testcase 34
+//	@Test(dataProvider = "TradeOrderCarpetVinyl",priority = 1)
+//	public void TradeOrderCarpetVinyl(String Customer_Firstname,String Customer_Lastname,String Email, String Phone,String Address1,String Address2,String Address3,String City, String State, String Zip,String Lead_source,String Item_Name, String Quantity, String Location,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Credit_Card_Number,String Expiry_Date,String NameOnCard,String Security_Code,String Sales_Order_Form,String Customer_type,String SupplierDeliveryNote,String Bin) throws Exception 
+//	{
+//		String Terms="";
+//		test=extent.createTest("Verifying Trade Order via Contact Centre - Carpet/Vinyl Credit Card");
+//		customerPage=new CustomerPage();
+//		opprPage=new OpportunityPage();
+//		quotePage=new QuotePage();
+//		soPage=new SalesOrderPage();
+//		itemfulfilmentPage=new ItemFulfilment();
+//		itemReceiptPage =new ItemReceiptPage();
+//		poPage=new PurchaseOrderPage();
+//		try
+//		{
+//		customerPage.enter_Customer_details(Customer_Firstname, Customer_Lastname, Email, Phone, Address1, Address2, Address3, City, State, Zip, Customer_type, "Trade Sales",Credit_Card_Number,NameOnCard,Expiry_Date,Security_Code,Payment_Method, test);
+//		opprPage.enterOpprntyDetails(Lead_source, test);
+//		quotePage.enterQuoteDetails(Location, Item_Name, Quantity, Shipping_Method, test);
+//		soPage.enterSoDetails(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_type, Item_Name, Quantity, Payment_Method,Terms, test);
+//		soPage.verifyEmail("Thanks for your order!", test);
+//		soPage.salesOrderApproval(test);
+//		soPage.verifyProcessedScreen(test);
+//		soPage.verifySOStatus("PENDING FULFILLMENT",test);
+//		soPage.verifyEmail("Order Confirmation", test);
+//		//Verifying Cash Sale
+//		soPage.verifyCashSaleandPO("Cash Sale", test);
+//		//Verifying Purchase Order
+//		soPage.verifyCashSaleandPO("Purchase Order", test);
+//		String sales_order_url=driver.getCurrentUrl();
+//		//Navigating to PO from Related Records
+//		soPage.navigatetoPO("Purchase Order");
+//		//Navigating to Item Receipt From PO
+//		poPage.navigateToReceiveFromPO("Fulfilment");
+//		itemReceiptPage.saveItemReceiptfromPO(SupplierDeliveryNote, test);
+//		driver.navigate().to(sales_order_url);
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+//		soPage.verifySOStatus("BILLED",test);
+//		}
+//		catch(Exception e)
+//		{
+//			test.fail("Trade Order via Contact Centre - Carpet/Vinyl Credit Card is failed due to " +e.fillInStackTrace());
+//		}
+//			
+//	}
+	
+	
+	//Testcase 35
+	@Test(dataProvider = "TradeOrderViaContactCentreCarpet",priority = 1)
+	public void TradeOrderViaContactCentreCarpet(String CustomerName,String Item_Name, String Quantity,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Security_Code,String Sales_Order_Form,String CustomerId,String SupplierDeliveryNote,String Bin) throws Exception 
 	{
-		String Terms="";
-		test=extent.createTest("Verifying Trade Order via Contact Centre - Carpet/Vinyl Credit Card");
+		
+		String Customer_url="https://3460739-sb5.app.netsuite.com/app/common/entity/custjob.nl?id=";
+		test=extent.createTest("Verifying Trade Order via Contact Centre - Credit Account (i.e. 30 days payment from despatch)");
 		customerPage=new CustomerPage();
-		opprPage=new OpportunityPage();
-		quotePage=new QuotePage();
 		soPage=new SalesOrderPage();
 		itemfulfilmentPage=new ItemFulfilment();
 		itemReceiptPage =new ItemReceiptPage();
 		poPage=new PurchaseOrderPage();
+		String Terms="";
 		try
 		{
-		customerPage.enter_Customer_details(Customer_Firstname, Customer_Lastname, Email, Phone, Address1, Address2, Address3, City, State, Zip, Customer_type, Role,Credit_Card_Number,NameOnCard,Expiry_Date,Security_Code,Payment_Method, test);
-		opprPage.enter_Opprnty_Details(Lead_source, test);
-		quotePage.enter_quote_details(Location, Item_Name, Quantity, Shipping_Method, test);
-		soPage.enter_SO_details(Sales_Order_Form, Delivery_Instructions, Shipping_Method, Customer_type, Item_Name, Quantity, Payment_Method,Terms, test);
+		customerPage.navigateToCustomer("Trade Sales",Customer_url,CustomerId);
+		customerPage.clickNewSOFromCustomer();
+		soPage.enterSoDetails(Sales_Order_Form, Delivery_Instructions, Shipping_Method, CustomerName, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
 		soPage.verifyEmail("Thanks for your order!", test);
+		soPage.printProFormaInvoice("profromatest36.pdf",test);
+		soPage.emailProFormaInvoice("profromatest36.pdf",test);
+		soPage.verifyProFormaInvoice("profromatest36.pdf",test);	
 		soPage.salesOrderApproval(test);
 		soPage.verifyProcessedScreen(test);
-		soPage.verifySOStatus("PENDING FULFILLMENT",test);
-		soPage.verifyEmail("Order Confirmation", test);
-		//Verifying Cash Sale
-		soPage.verifyCashSaleandPO("Cash Sale", test);
-		//Verifying Purchase Order
-		soPage.verifyCashSaleandPO("Purchase Order", test);
+		soPage.verifyEmail("Your order has been confirmed", test); 
+		soPage.verifyCashSaleandPO("Purchase Order", test); 
 		String sales_order_url=driver.getCurrentUrl();
-		//Navigating to PO from Related Records
 		soPage.navigatetoPO("Purchase Order");
-		//Navigating to Item Receipt From PO
 		poPage.navigateToReceiveFromPO("Fulfilment");
 		itemReceiptPage.saveItemReceiptfromPO(SupplierDeliveryNote, test);
 		driver.navigate().to(sales_order_url);
-		soPage.waitUntilStockIsAutoCommitted(Quantity, test);
-		itemfulfilmentPage.item_Fulfillment(Bin,Quantity,test); 
-		itemfulfilmentPage.verify_fulfillment_status("SHIPPED",test);
-		itemfulfilmentPage.verify_sales_order_status("BILLED",test);
+		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+		itemfulfilmentPage.navigateToSoFromFulfillment();
+		soPage.verifySOStatus("BILLED",test);
+	
 		}
 		catch(Exception e)
 		{
-			test.fail("Trade Order via Contact Centre - Carpet/Vinyl Credit Card is failed due to " +e.fillInStackTrace());
+			test.fail("Trade Order via Contact Centre - Credit Account (i.e. 30 days payment from despatch) is failed due to " +e.fillInStackTrace());
 		}
 			
 	}
+	
+	
+	//Testcase 29
+//	@Test(dataProvider = "CarpetAndUKFDFulfilledCarpetAccessory",priority = 1)
+//	public void CarpetAndUKFDFulfilledCarpetAccessory(String CustomerName,String Item_Name, String Quantity,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Security_Code,String Sales_Order_Form,String Terms,String CustomerId,String SupplierDeliveryNote,String Bin) throws Exception 
+//	{
+//		
+//		String Customer_url="https://3460739-sb5.app.netsuite.com/app/common/entity/custjob.nl?id=";
+//		test=extent.createTest("Verifying New Sales order via Contact Centre / Showroom - Carpet and UKFD fulfilled carpet accessories");
+//		customerPage=new CustomerPage();
+//		soPage=new SalesOrderPage();
+//		itemfulfilmentPage=new ItemFulfilment();
+//		itemReceiptPage =new ItemReceiptPage();
+//		poPage=new PurchaseOrderPage();
+//		try
+//		{
+//		customerPage.navigateToCustomer("Sales Manager",Customer_url,CustomerId);
+//		customerPage.clickNewSOFromCustomer();
+//		soPage.enterSoDetails(Sales_Order_Form, Delivery_Instructions, Shipping_Method, CustomerName, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
+//		soPage.verifyEmail("Thanks for your order!", test);
+//		soPage.salesOrderApproval(test);
+//		soPage.verifyProcessedScreen(test);
+//		soPage.verifySOStatus("PENDING FULFILLMENT", test);
+//		soPage.verifyEmail("Order Confirmation", test); 
+//		soPage.verifyCashSaleandPO("Purchase Order", test); 
+//		String sales_order_url=driver.getCurrentUrl();
+//		soPage.navigatetoPO("Purchase Order");
+//		poPage.navigateToReceiveFromPO("Fulfilment");
+//		itemReceiptPage.saveItemReceiptfromPO(SupplierDeliveryNote, test);
+//		driver.navigate().to(sales_order_url);
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+//		soPage.verifySOStatus("BILLED",test);
+//		}
+//		catch(Exception e)
+//		{
+//			test.fail("New Sales order via Contact Centre / Showroom - Carpet and UKFD fulfilled carpet accessories" +e.fillInStackTrace());
+//		}
+//			
+//	}
+	
+	
+	//Testcase 30
+//	@Test(dataProvider = "NewCarpetAndExistingCarpet",priority = 1)
+//	public void NewCarpetAndExistingCarpet(String CustomerName,String Item_Name, String Quantity,String Shipping_Method,String Delivery_Instructions,String Payment_Method,String Security_Code,String Sales_Order_Form,String Terms,String CustomerId,String SupplierDeliveryNote,String Bin) throws Exception 
+//	{
+//		
+//		String Customer_url="https://3460739-sb5.app.netsuite.com/app/common/entity/custjob.nl?id=";
+//		test=extent.createTest("Verifying New Sales order via Contact Centre / Showroom - Carpet and existing UKFD Flooring");
+//		customerPage=new CustomerPage();
+//		soPage=new SalesOrderPage();
+//		itemfulfilmentPage=new ItemFulfilment();
+//		itemReceiptPage =new ItemReceiptPage();
+//		poPage=new PurchaseOrderPage();
+//		try
+//		{
+//		customerPage.navigateToCustomer("Sales Manager",Customer_url,CustomerId);
+//		customerPage.clickNewSOFromCustomer();
+//		soPage.enterSoDetails(Sales_Order_Form, Delivery_Instructions, Shipping_Method, CustomerName, Item_Name, Quantity, Payment_Method.trim(),Terms, test);
+//		soPage.verifyEmail("Thanks for your order!", test);
+//		soPage.salesOrderApproval(test);
+//		soPage.verifyProcessedScreen(test);
+//		soPage.verifySOStatus("PENDING FULFILLMENT", test);
+//		soPage.verifyEmail("Order Confirmation", test); 
+//		soPage.verifyCashSaleandPO("Purchase Order", test); 
+//		String sales_order_url=driver.getCurrentUrl();
+//		soPage.navigatetoPO("Purchase Order");
+//		poPage.navigateToReceiveFromPO("Fulfilment");
+//		itemReceiptPage.saveItemReceiptfromPO(SupplierDeliveryNote, test);
+//		driver.navigate().to(sales_order_url);
+//		soPage.waitUntilStockIsAutoCommitted(Quantity, test,Item_Name);
+//		itemfulfilmentPage.fulfillOrder(Item_Name, Quantity, Bin, test);
+//		itemfulfilmentPage.navigateToSoFromFulfillment();
+//		soPage.verifySOStatus("BILLED",test);
+//		}
+//		catch(Exception e)
+//		{
+//			test.fail("New Sales order via Contact Centre / Showroom - Carpet and existing UKFD Flooring is failed due to " +e.fillInStackTrace());
+//		}
+//			
+//	}
+//	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

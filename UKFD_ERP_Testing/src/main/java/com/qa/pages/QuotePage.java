@@ -115,7 +115,7 @@ public class QuotePage extends TestUtil {
 		action=new Actions(driver);
 	}
 	 
-	public void enter_quote_details(String location, String item_Name, String quantity, String shipping_Method, ExtentTest test) throws InterruptedException
+	public void enterQuoteDetails(String location, String item_Name, String quantity, String shipping_Method, ExtentTest test) throws InterruptedException
 	{
 		
 		action.moveToElement(select_location_dropdown).build().perform();
@@ -145,22 +145,10 @@ public class QuotePage extends TestUtil {
 		executor.executeScript("window.scrollTo(0,0)");
 		eleClickable(driver, first_save_button, 20);
 		first_save_button.click();
-		isAlertPresent();
-//		executor.executeScript("window.scrollBy(0,400)", "");
-//		eleClickable(driver, customer_link, 10);
-//		customer_link.click();
-//		eleAvailability(driver, page_menu, 10);
-//		action.moveToElement(page_menu).build().perform();
-//		eleAvailability(driver, list_of_pages.get(0), 10);
-//		for(int i=0;i<list_of_pages.size();i++)
-//		{
-//			if(list_of_pages.get(i).getText().equals("Sales Order"))
-//			{
-//				list_of_pages.get(i).click();
-//				break;
-//			}
-//		}
-	
+		if(isAlertPresent_()==true)
+		{
+			driver.switchTo().alert().accept();
+		}
 		eleAvailability(driver, create_sales_order_button, 20);
 		if(quote_confirmation_message.getText().trim().equals("Transaction successfully Saved"))
 		{

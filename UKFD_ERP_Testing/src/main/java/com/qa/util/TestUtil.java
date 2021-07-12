@@ -14,11 +14,13 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -65,22 +67,25 @@ public class TestUtil {
 		loginPage.login(prop.getProperty("username"), prop.getProperty("password"));
 	}
 	
-	public boolean isAlertPresent(){
-	    boolean foundAlert = false;
-	    WebDriverWait wait = new WebDriverWait(driver, 15 /*timeout in seconds*/);
-	    try {
-	        wait.until(ExpectedConditions.alertIsPresent());
-	        foundAlert = true;
-	        
-	    } catch (TimeoutException eTO) {
-	        foundAlert = false;
-	    }
-	    return foundAlert;
+	public boolean isAlertPresent_() {
+		try {
+			Alert a = new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
+			if (a != null) {
+				System.out.println("Alert is present");
+				return true;
+			} else {
+				throw new Throwable();
+			}
+		} catch (Throwable e) {
+			System.err.println("Alert isn't present!!");
+			return false;
+		}
+
 	}
 	public void accept_alert()
 	{
 		
-		if(isAlertPresent()==true)
+		if(isAlertPresent_()==true)
 		{
 			Alert alert=driver.switchTo().alert();
 			alert.accept();
@@ -180,12 +185,12 @@ public class TestUtil {
 	
 	
 	
-	public void waitUntilScriptIsScheduled(WebElement element,String value, int time) throws InterruptedException {
+	public void waitUntilScriptIsScheduled(WebElement element,String value, int time,String item) throws InterruptedException {
 	    int timer = 0;
-	    final int pollInterval = 8000;
-	    while (timer < time*1000) {
-	 
-	        if (element.getText().trim().equals(value))
+	    final int pollInterval = 8000;		
+		while (timer < time*1000) {
+			WebElement committed_quantity_div=driver.findElement(By.xpath("//a[text()='"+item.trim()+"']//following::td[count(//td[@data-label='Committed']//preceding-sibling::td)]"));
+	        if (committed_quantity_div.getText().trim().equals(value))
 	        {
 	           driver.navigate().refresh();
 	           Thread.sleep(pollInterval);
@@ -201,6 +206,12 @@ public class TestUtil {
 	    throw new TimeoutException("Maximum time exceeded.");
 	}
 	
+	public void clearValueEnterText(WebElement element, String value) {
+		action = new Actions(driver);
+		action.click(element).keyDown(Keys.CONTROL).sendKeys("a")
+			.sendKeys(Keys.BACK_SPACE).keyUp(Keys.CONTROL)
+			.sendKeys(element, value).build().perform();
+	}
 	public void waitUntilTabsCountEquals(int tabs, int time) throws InterruptedException {
 	    int timer = 0;
 	    final int pollInterval = 500;

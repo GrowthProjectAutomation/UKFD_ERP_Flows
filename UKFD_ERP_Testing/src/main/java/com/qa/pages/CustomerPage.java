@@ -150,6 +150,24 @@ public class CustomerPage extends TestUtil{
 	@FindBy(xpath = "//input[@name='ccname']")
 	WebElement cardHolderNameTextBox;
 	
+	@FindBy(xpath = "//input[@name='inpt_quicksort']")
+	WebElement quickSortDropdown;
+	
+	@FindBy(xpath = "//table[@id='div__bodytab']//tr[contains(@id,'row')]//td[count(//table[@id='div__labtab']//thead//div[contains(text(),'Name')]//parent::td//preceding-sibling::td)+1]")
+	List<WebElement> customerList;
+	
+	@FindBy(xpath = "//span[@class='uir-pagination-label']")
+	WebElement paginationLabel;
+	
+	@FindBy(xpath = "//span[@class='uir-pagination-label']//following-sibling::ul//li")
+	List<WebElement> paginationList;
+	
+	@FindBy(xpath = "//span[@id='spn_CREATENEW_d1']//div[@class='button-new']")
+	WebElement createNewBtn;
+	
+	@FindBy(xpath = "//div[@id='div_CREATENEW_d1']//span[text()='Sales Order']")
+	WebElement newSOLink;
+	
 
 	
 	
@@ -163,7 +181,21 @@ public class CustomerPage extends TestUtil{
 		PageFactory.initElements(driver, this);
 		action=new Actions(driver);
 	}
-	
+	public void navigateToCustomer(String role,String url, String customerId) throws InterruptedException
+	{
+		loginPage=new LoginPage();
+		loginPage.choose_required_role(role.trim());
+		String customer_url=url.trim()+customerId.trim();
+		driver.navigate().to(customer_url);
+	}
+
+	public void clickNewSOFromCustomer() throws InterruptedException 
+	{
+		action.moveToElement(createNewBtn).build().perform();
+		eleAvailability(driver, newSOLink, 10);
+		newSOLink.click();
+		
+	}
 	public void navigate_to_customer_record() throws InterruptedException
 	{
 		eleAvailability(driver, Lists_link, 15);
@@ -265,4 +297,6 @@ public class CustomerPage extends TestUtil{
 		opprtnty_button_link.click();
 
 	}
+	
+	
 }

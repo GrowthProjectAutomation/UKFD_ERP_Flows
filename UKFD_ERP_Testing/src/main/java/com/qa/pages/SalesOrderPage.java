@@ -160,7 +160,7 @@ public class SalesOrderPage extends TestUtil {
 	WebElement secondary_fulfil_button;
 	
 	@FindBy(xpath = "//table[@id='item_splits']//tr//following-sibling::tr//td[count(//td[@data-label='Committed']//preceding-sibling::td)+1]")
-	WebElement committed_quantity;
+	List<WebElement> committed_quantity;
 	
 	@FindBy(xpath = "//input[@name='inpt_shipstatus']")
 	WebElement select_shipping_status;
@@ -198,6 +198,9 @@ public class SalesOrderPage extends TestUtil {
 	@FindBy(xpath = "//input[@id='mediaitem_addedit']")
 	WebElement add_file;
 	
+	@FindBy(xpath = "//input[@id='mediaitem_mediaitem_display']")
+	WebElement added_file;
+	
 	@FindBy(xpath = "//a[@id='messagestxt']")
 	WebElement message_tab;
 	
@@ -229,7 +232,7 @@ public class SalesOrderPage extends TestUtil {
 	List<WebElement> items_list;
 	
 	@FindBy(xpath = "//table[@id='item_splits']//tr[contains(@class,'uir-machine-row-focused')]//td[count(//tr[@id='item_headerrow']//div[text()='Quantity']//parent::td//preceding-sibling::td)+1]")
-	WebElement quantity_click;
+	WebElement quantityDiv;
 	
 	@FindBy(xpath="//input[@id='quantity_formattedValue']")
 	WebElement Quantity;
@@ -239,7 +242,7 @@ public class SalesOrderPage extends TestUtil {
 	
 	
 	@FindBy(xpath = "//table[@id='item_splits']//tr[@id='item_headerrow']//following-sibling::tr//td[6]")
-	WebElement pack_price;
+	List<WebElement> pack_price;
 	
 	@FindBy(xpath = "//table[@id='item_splits']//tr[contains(@id,'item_row_')]//td[count(//tr[@id='item_headerrow']//td[@data-label='Product Details']//preceding-sibling::td)]")
 	WebElement item_value_list;
@@ -277,6 +280,8 @@ public class SalesOrderPage extends TestUtil {
 	
 	
 	
+	
+	
 	JavascriptExecutor executor = (JavascriptExecutor) driver;
 	String parentWindow;
 	char ch='"';
@@ -301,8 +306,11 @@ public class SalesOrderPage extends TestUtil {
 		Thread.sleep(1000);
 		enterSO_link.click();
 	}
-	public void enter_SO_details(String formName,String delivery_Instructions, String shipping_Method,String Customer_Name, String item_Name, String quantity, String payment_Method, String terms, ExtentTest test) throws Exception
+	public void enterSoDetails(String formName,String delivery_Instructions, String shipping_Method,String Customer_Name, String item_Name, String quantity, String payment_Method, String terms, ExtentTest test) throws Exception
 	{
+		String[] items=item_Name.split(",");
+		String [] quantities=quantity.split(",");
+		System.out.println(quantities.length);
 		if(!formDropdown.getAttribute("value").trim().equals(formName))
 			selectDropdownValue(formDropdown, dropdownList, formName);
 		eleFocussed(customerBox);
@@ -316,23 +324,25 @@ public class SalesOrderPage extends TestUtil {
 		Thread.sleep(1000);
 		try
 		{
-		if(item_row.isDisplayed()==false)
-		{
-			selectValueFromList(Item_arrow, item_list_option, Item_searchbox_textbox, Item_search_searchbox_button, searchList, item_Name);
-			notTextToBePresentInElementValue(driver, pack_price, 100, "0.00");
-			Thread.sleep(3000);
-			quantity_click.click();
-			eleClickable(driver, Quantity, 5);
-			Quantity.sendKeys(quantity.trim());
-			itemAddBtn.click();
-			Thread.sleep(1000);
-			accept_alert();
-			
-		}
-		}
-		catch(NoSuchElementException e)
+		if(item_row.isDisplayed()==true)
 		{
 			System.out.println("item is already present");
+		}
+		}
+		catch(Exception e)
+		{
+			if(!item_Name.contains(","))
+			{
+			selectItem(item_Name, quantity,pack_price.get(0),quantityDiv);
+			}
+			else
+			{
+				for(int i=0;i<quantities.length;i++)
+				{
+					selectItem(items[i], quantities[i], pack_price.get(i),quantityDiv);
+				}
+			}
+			
 		}
 		click(secondary_calculate_shipping_button);
 		Thread.sleep(1000);
@@ -352,57 +362,49 @@ public class SalesOrderPage extends TestUtil {
 		}
 		Thread.sleep(1000);
 		selectDropdownValue(select_payment_method, dropdownList,payment_Method );
+		Thread.sleep(2000);
 		click(second_sales_order_save_button);
 	}
-	public void provide_terms() throws InterruptedException
+	
+	public void selectItem(String ItemName,String quantity,WebElement pack_price, WebElement quantity_click) throws InterruptedException
 	{
-		executor.executeScript("arguments[0].scrollIntoView(true);", location);
-		eleAvailability(driver, billing_tab, 20);
-		billing_tab.click();
-		eleAvailability(driver, terms_dropdown, 20);
-		selectDropdownValue(terms_dropdown, dropdownList, "");
-		executor.executeScript("arguments[0].scrollIntoView(true);", second_sales_order_save_button);
-		Thread.sleep(1500);
-		second_sales_order_save_button.click();		
+		
+		selectValueFromList(Item_arrow, item_list_option, Item_searchbox_textbox, Item_search_searchbox_button, searchList, ItemName);
+		notTextToBePresentInElementValue(driver, pack_price, 100, "0.00");
+		Thread.sleep(3000);
+		quantity_click.click();
+		eleClickable(driver, Quantity, 5);
+		Quantity.sendKeys(quantity.trim());
+		itemAddBtn.click();
+		Thread.sleep(1000);
+		if(isAlertPresent_()==true)
+		{
+			driver.switchTo().alert().accept();
+		}
 	}
-//	public void select_payment_from_list(String payment_method,String credit_crad_number,String security_code,String customer_name, ExtentTest test) throws InterruptedException
+//
+//	public void payment_details(String payment_Method, String credit_Card_Number, String security_Code, String expiry_Date, String customer_Firstname, String customer_Lastname,ExtentTest test) throws InterruptedException
 //	{
-//		int credit_card_number=Integer.parseInt(credit_crad_number.trim());
-//		int last_four_digits=credit_card_number%10000;
-//		String requiured_card=payment_method+" "+"–"+" "+"*"+last_four_digits;
+//		executor.executeScript("arguments[0].scrollIntoView(true);", location);
 //		Thread.sleep(1000);
-//		click(billing_tab);
-//		selectDropdownValue(select_payment_method, dropdownList, payment_method.trim());
+//		billing_tab.click();
+//		select_payment_method.sendKeys(payment_Method.trim());
 //		executor.executeScript("arguments[0].scrollIntoView(true);", select_credit_card);
 //		Thread.sleep(500);
-//		selectDropdownValue(select_credit_card, dropdownList, requiured_card);
-//		textToBePresentInElementValue(driver,ccname,15,customer_name);
-//		security_code_textbox.sendKeys(security_code.trim());
+//		selectDropdownValue(select_credit_card, select_credit_card_from_list, "- New -");
+//		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+//	    driver.switchTo().window(tabs.get(1));
+//	    eleAvailability(driver,ccnumber_textbox, 10);
+//		ccnumber_textbox.sendKeys(credit_Card_Number.trim());
+//		expiry_date_textbox.sendKeys(expiry_Date.trim());
+//		select_payment_method.sendKeys(payment_Method.trim());
+//		save_card_details.click();
+//	    driver.switchTo().window(tabs.get(0));	
+//	    textToBePresentInElementValue(driver,ccname,15,customer_Firstname+" "+customer_Lastname);
+//		security_code_textbox.sendKeys(security_Code.trim());
 //		Thread.sleep(500);
-//		click(second_sales_order_save_button);
+//		second_sales_order_save_button.click();
 //	}
-	public void payment_details(String payment_Method, String credit_Card_Number, String security_Code, String expiry_Date, String customer_Firstname, String customer_Lastname,ExtentTest test) throws InterruptedException
-	{
-		executor.executeScript("arguments[0].scrollIntoView(true);", location);
-		Thread.sleep(1000);
-		billing_tab.click();
-		select_payment_method.sendKeys(payment_Method.trim());
-		executor.executeScript("arguments[0].scrollIntoView(true);", select_credit_card);
-		Thread.sleep(500);
-		selectDropdownValue(select_credit_card, select_credit_card_from_list, "- New -");
-		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
-	    driver.switchTo().window(tabs.get(1));
-	    eleAvailability(driver,ccnumber_textbox, 10);
-		ccnumber_textbox.sendKeys(credit_Card_Number.trim());
-		expiry_date_textbox.sendKeys(expiry_Date.trim());
-		select_payment_method.sendKeys(payment_Method.trim());
-		save_card_details.click();
-	    driver.switchTo().window(tabs.get(0));	
-	    textToBePresentInElementValue(driver,ccname,15,customer_Firstname+" "+customer_Lastname);
-		security_code_textbox.sendKeys(security_Code.trim());
-		Thread.sleep(500);
-		second_sales_order_save_button.click();
-	}
 	public void salesOrderApproval(ExtentTest test) throws InterruptedException
 	{
 		executor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
@@ -457,8 +459,8 @@ public class SalesOrderPage extends TestUtil {
 	}
 	public void verifyCashSaleandPO(String Transaction,ExtentTest test) throws InterruptedException
 	{
-		executor.executeScript("arguments[0].scrollIntoView(true);", related_records_tab);
-		Thread.sleep(1500);
+		executor.executeScript("window.scrollBy(document.body.scrollHeight,0)");
+		Thread.sleep(1000);
 		eleAvailability(driver, related_records_tab, 10);
 		related_records_tab.click();
 		boolean tran_created=false;
@@ -494,8 +496,7 @@ public class SalesOrderPage extends TestUtil {
 	public void verifyEmail(String subject, ExtentTest test) throws InterruptedException {
 		Thread.sleep(1500);
 		click(communication_tab);
-		executor.executeScript("window.scrollBy(0,document.body.scrollHeight)");
-		try
+ 		try
 		{
 			eleAvailability(driver, By.xpath("//td[contains(text(),'"+subject+"')]"), 20);
 			WebElement emailId = driver.findElement(By.xpath("//td[contains(text(),'"+subject+"')]"));
@@ -516,8 +517,9 @@ public class SalesOrderPage extends TestUtil {
 			test.fail("Email with subject '"+subject+"' is not  send to the Customer");
 		}
 	}
-	public void waitUntilStockIsAutoCommitted(String quantity, ExtentTest test) throws InterruptedException
+	public void waitUntilStockIsAutoCommitted(String quantity, ExtentTest test,String itemName) throws InterruptedException
 	{
+		String[] items=itemName.split(",");
 		
 		String sales_order_url=driver.getCurrentUrl();
 		loginPage=new LoginPage();
@@ -526,9 +528,12 @@ public class SalesOrderPage extends TestUtil {
 		driver.navigate().to(sales_order_url);
 		Thread.sleep(1000);
 		executor.executeScript("arguments[0].scrollIntoView(true);", related_records_tab);
-		waitUntilScriptIsScheduled(committed_quantity,"0",2000);
-		Thread.sleep(1000);
-		if(committed_quantity.getText().trim().equals(quantity.trim()))
+		int quantity_commit=0;
+		if(!quantity.contains(","))
+		{
+		WebElement committed_quantity_div=driver.findElement(By.xpath("//a[text()='"+itemName.trim()+"']//following::td[count(//td[@data-label='Committed']//preceding-sibling::td)]"));
+		waitUntilScriptIsScheduled(committed_quantity_div,"0",2000,itemName);
+		if(committed_quantity.get(0).getText().trim().equals(quantity.trim()))
 		{
 			test.pass("Stock is auto committed");
 		}
@@ -536,10 +541,36 @@ public class SalesOrderPage extends TestUtil {
 		{
 			test.fail("Stock is not auto committed");
 		}
+		}
+		else
+		{
+			String [] quantites=quantity.split(",");
+			for(int i=0;i<quantites.length;i++)
+			{
+				WebElement committed_quantity_div=driver.findElement(By.xpath("//a[text()='"+items[i].trim()+"']//following::td[count(//td[@data-label='Committed']//preceding-sibling::td)]"));
+
+				waitUntilScriptIsScheduled(committed_quantity_div, "0", 2000,items[i]);
+				if(committed_quantity.get(i).getText().trim().equals(quantites[i].trim()))
+				{
+					quantity_commit=quantity_commit+1;
+				}
+			}
+			if(quantity_commit==quantites.length)
+			{
+				test.pass("Stock is auto committed");
+			}
+			else
+			{
+				test.fail("Stock is not auto committed");
+			}
+		}
+		Thread.sleep(1000);
+		
 	}
 
-	public void print_pro_froma_invoice(ExtentTest test) throws AWTException, InterruptedException
+	public void printProFormaInvoice(String filename,ExtentTest test) throws AWTException, InterruptedException
 	{
+		executor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
 		eleAvailability(driver, print_pro_forma, 20);
 		print_pro_forma.click();
 		Thread.sleep(2000);
@@ -552,7 +583,7 @@ public class SalesOrderPage extends TestUtil {
 	    robot.keyRelease(KeyEvent.VK_S);
 	    robot.keyRelease(KeyEvent.VK_CONTROL);
 	    Thread.sleep(5000);
-		StringSelection sel = new StringSelection("C:\\Users\\Sindhuja\\Desktop\\profromatest16.pdf");
+		StringSelection sel = new StringSelection("C:\\Users\\Sindhuja\\Desktop\\"+filename);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sel, null);
 		robot.keyPress(KeyEvent.VK_CONTROL);
 		robot.keyPress(KeyEvent.VK_V);
@@ -570,10 +601,11 @@ public class SalesOrderPage extends TestUtil {
 	    test.pass("Pro-Forma Invoice is Printed Sucessfully");
 	    
 	}
-	public void email_pro_forma(ExtentTest test) throws InterruptedException, AWTException
+	public void emailProFormaInvoice(String filename,ExtentTest test) throws InterruptedException, AWTException
 	{
 		
 		executor.executeScript("window.scrollTo(0, 0)");
+		Thread.sleep(1000);
 		eleAvailability(driver, communication_tab, 20);
 	    communication_tab.click();
 	    eleAvailability(driver, email_button, 10);
@@ -592,7 +624,7 @@ public class SalesOrderPage extends TestUtil {
 		System.out.println("Title is: "+driver.getTitle());
 		System.out.println(choose_file.isDisplayed());
 		action.moveToElement(choose_file).click().build().perform();
-		StringSelection sel = new StringSelection("C:\\Users\\Sindhuja\\Desktop\\profromatest16.pdf");
+		StringSelection sel = new StringSelection("C:\\Users\\Sindhuja\\Desktop\\"+filename);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sel, null);
 		System.out.println("selection" + sel);
 		Robot robot = new Robot();
@@ -611,32 +643,44 @@ public class SalesOrderPage extends TestUtil {
 		Thread.sleep(1000);
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
-		accept_alert();
+//		action.sendKeys(save_selected_file).doubleClick().build().perform();
+		if(isAlertPresent_()==true)
+		{
+			driver.switchTo().alert().accept();
+		}
 	    save_selected_file.click();
-	    driver.switchTo().window(tabs.get(1));
+	    if(isAlertPresent_()==true)
+		{
+			driver.switchTo().alert().accept();
+		}	    driver.switchTo().window(tabs.get(1));
 	    Thread.sleep(1000);
-		accept_alert();
+	    eleAvailability(driver, add_file, 20);
+	   textToBePresentInElementValue(driver, added_file, 30, filename.trim());
 	    action.moveToElement(add_file).build().perform();
 	    add_file.click();
+	    Thread.sleep(1000);
 	    action.moveToElement(merge_and_send).build().perform();
 	    merge_and_send.click();
-	    accept_alert();
-		
+	    if(isAlertPresent_()==true)
+		{
+			driver.switchTo().alert().accept();
+		}		
 	}
-	public void verify_profromaemail(ExtentTest test) throws InterruptedException
+	public void verifyProFormaInvoice(String filename,ExtentTest test) throws InterruptedException
 	{
 		ArrayList<String> tabs1 = new ArrayList<String> (driver.getWindowHandles());
 		Thread.sleep(2000);
 		driver.switchTo().window(tabs1.get(0));
 		Thread.sleep(1000);
+		action.moveToElement(refresh_communication_msgs).build().perform();
+		Thread.sleep(1500);
 		refresh_communication_msgs.click();
 		Thread.sleep(1000);
-		//executor.executeScript("arguments[0].scrollIntoView(true);", attached_email.get(0));
-		//eleAvailability(driver, attached_email.get(0), 10);
+		eleAvailability(driver, attached_email.get(0), 10);
 		boolean emailed=false;
 		for(int i=0;i<attached_email.size();i++)
 		{
-			if(attached_email.get(i).getText().trim().contains("profromatest16"))
+			if(attached_email.get(i).getText().trim().contains(filename.trim()))
 			{
 				emailed=true;
 				System.out.println("Pro forma mail is attached and sent successfully");

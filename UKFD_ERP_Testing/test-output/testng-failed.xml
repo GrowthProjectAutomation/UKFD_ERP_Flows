@@ -5,10 +5,10 @@
     <classes>
       <class name="com.qa.testcases.UKFD_ERP_Testcases">
         <methods>
+          <include name="TradeOrderViaContactCentreCarpet"/>
           <include name="tearDown"/>
           <include name="setExtent"/>
           <include name="setUp"/>
-          <include name="so_Creation_Contact_Centre" invocation-numbers="0"/>
           <include name="endReport"/>
         </methods>
       </class> <!-- com.qa.testcases.UKFD_ERP_Testcases -->

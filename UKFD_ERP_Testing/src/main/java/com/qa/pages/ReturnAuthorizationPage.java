@@ -97,7 +97,7 @@ public class ReturnAuthorizationPage extends TestUtil{
 		action = new Actions(driver);
 	}
 	
-	public void saveReturnOrder(String quantity,String returnReason, String returnResponsibility,String returnNotes, String returnReasonSubType,String returnReason3,String returnReason4,String supplyNote,ExtentTest test) throws InterruptedException, ParseException {
+	public void saveReturnOrder(String quantity,String returnQuantity,String returnReason, String returnResponsibility,String returnNotes, String returnReasonSubType,String returnReason3,String returnReason4,String supplyNote,ExtentTest test) throws InterruptedException, ParseException {
 		eleClickable(driver, returnReasonDropdown, 10);
 		selectDropdownValue(returnReasonDropdown, dropdownList, returnReason);
 		selectDropdownValue(returnResponsibilityDropdown, dropdownList, returnResponsibility);
@@ -109,16 +109,12 @@ public class ReturnAuthorizationPage extends TestUtil{
 		Thread.sleep(3000);
 		selectDropdownValue(returnReason4Dropdown, dropdownList, returnReason4.trim());
 		action.moveToElement(returnDateBox).sendKeys(returnDateBox, required_date("0")).build().perform();
-		if(supplyNote.trim().equals("partial return"))
-		{
 		action.moveToElement(quantityClick).build().perform();
 		Thread.sleep(1000);
 		quantityClick.click();
 		eleAvailability(driver, quantityInputBox, 10);
-		int partial_quantity=Integer.parseInt(quantity.trim());
-		quantityInputBox.sendKeys(String.valueOf(partial_quantity-1));
+		quantityInputBox.sendKeys(returnQuantity);
 		addItemButton.click();
-		}
 		Thread.sleep(1000);
 		executor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
 		Thread.sleep(1000);
@@ -129,20 +125,23 @@ public class ReturnAuthorizationPage extends TestUtil{
 		eleAvailability(driver, confirmationMsg, 40);
 	    String confirmationMessage = confirmationMsg.getText().trim();
 	    String tranNo = recordNumber.getText().trim();
-	    if(confirmationMessage.equals("Transaction successfully Saved")) {
+	    if(confirmationMessage.equals("Transaction successfully Saved"))
+	    {
 	    	System.out.println("Return Authorisation '"+tranNo+"' created successfully");
 	    	test.pass("Return Authorisation '"+tranNo+"' created successfully");
-	    }else {
+	    }
+	    else 
+	    {
 	    	System.out.println("Return Authorisation unable to create");
 	    	test.fail("Return Authorisation unable to create");
 	    }
 	}
-	public void navigateToItemReceipt() throws InterruptedException
+	public void navigateToItemReceipt(String role) throws InterruptedException
 	{
 		
 		String url=driver.getCurrentUrl();
 		loginPage=new LoginPage();
-		loginPage.choose_required_role("Fulfilment");
+		loginPage.choose_required_role(role.trim());
 		driver.navigate().to(url);
 		eleAvailability(driver, itemReceiveButton, 20);
 		itemReceiveButton.click();

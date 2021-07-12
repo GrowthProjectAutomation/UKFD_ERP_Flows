@@ -40,7 +40,7 @@ public class OpportunityPage extends TestUtil{
 
 	}
 	
-	public void enter_Opprnty_Details(String lead_source, ExtentTest test) throws InterruptedException
+	public void enterOpprntyDetails(String lead_source, ExtentTest test) throws InterruptedException
 	{
 		eleClickable(driver, select_lead_source, 10);
 		select_lead_source.sendKeys(lead_source.trim());
@@ -55,6 +55,7 @@ public class OpportunityPage extends TestUtil{
 		}
 		executor.executeScript("arguments[0].scrollIntoView(true);", sales_tab_link);
 		Thread.sleep(1000);
+		eleAvailability(driver, sales_tab_link, 10);
 		sales_tab_link.click();
 		new_quote_button_link.click();
 		

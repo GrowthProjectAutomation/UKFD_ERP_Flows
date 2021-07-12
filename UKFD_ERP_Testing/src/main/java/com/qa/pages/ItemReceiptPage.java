@@ -94,20 +94,20 @@ public class ItemReceiptPage extends TestUtil
 		    }
 		
 	}
-	public void navigateToReturnAuthorization() throws InterruptedException
+	public void navigateToReturnAuthorization(String role) throws InterruptedException
 	{
 		returnAuthorizationLink.click();
 		String url=driver.getCurrentUrl();
 		loginPage=new LoginPage();
-		loginPage.choose_required_role("Customer Service");
+		loginPage.choose_required_role(role.trim());
 		driver.navigate().to(url);
 	}
 	
-	public void navigateToCreditMemo() throws InterruptedException
+	public void navigateToCreditMemo(String role) throws InterruptedException
 	{
 		String url=driver.getCurrentUrl();
 		loginPage=new LoginPage();
-		loginPage.choose_required_role("Finance");
+		loginPage.choose_required_role(role.trim());
 		driver.navigate().to(url);
 		refundButton.click();
 		
